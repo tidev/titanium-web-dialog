@@ -71,17 +71,14 @@ properties:
 methods:
   - name: isOpen
     summary: Indicates if the web dialog is open.
-    osver: {ios: {min: "9.0"}}
     returns:
         type: Boolean
     platforms: [iphone, ipad]
 
   - name: isSupported
     summary: Indicates if the web dialog is supported.
-    osver: {ios: {min: "9.0"}}
     returns:
         type: Boolean
-    platforms: [iphone, ipad]
 
   - name: open
     summary: Opens the web dialog with the options provided.
@@ -94,7 +91,6 @@ methods:
                 tintColor: 'red'
             });
         }
-    osver: {ios: {min: "9.0"}}
     parameters:
       - name: params
         summary: Dictionary used to configure the web dialog.
@@ -107,7 +103,6 @@ methods:
         if (dialog.isOpen()) {
             dialog.close();
         }
-    osver: {ios: {min: "9.0"}}
 events:
   - name: open
     summary: |

@@ -1,0 +1,8 @@
+.DS_Store
+metadata.json
+*.zip
+*.xcworkspace/
+*.xcuserstate
+xcuserdata/
+build/
+/android/dist

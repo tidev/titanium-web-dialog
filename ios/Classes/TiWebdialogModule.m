@@ -156,7 +156,7 @@
     if ([TiUtils isIOS10OrGreater]) {
       [safari setPreferredBarTintColor:[[TiUtils colorValue:@"barColor" properties:args] _color]];
     } else {
-      NSLog(@"[ERROR] Ti.SafariDialog: The barColor property is only available in iOS 10 and later");
+      NSLog(@"[ERROR] Ti.WebDialog: The barColor property is only available in iOS 10 and later");
     }
   }
   
@@ -165,7 +165,7 @@
     if (@available(iOS 11.0, *)) {
       [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
     } else {
-      NSLog(@"[ERROR] Ti.SafariDialog: The dismissButtonStyle property is only available in iOS 11 and later");
+      NSLog(@"[ERROR] Ti.WebDialog: The dismissButtonStyle property is only available in iOS 11 and later");
     }
   }
 #endif

@@ -2,10 +2,14 @@
 <ti:module xmlns:ti="http://ti.appcelerator.org" xmlns:android="http://schemas.android.com/apk/res/android">
 	<!--
 		Similar to tiapp.xml, but contains module/platform specific
-		configuration in <iphone> and <android> sections
+		configuration in <iphone>, <android>, and <mobileweb> sections
 	-->
 	<iphone>
 	</iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
 	</android>
+	<mobileweb>
+	</mobileweb>
+	<property name="android.javac.source" type="string">1.7</property>
+  <property name="android.javac.target" type="string">1.7</property>
 </ti:module>

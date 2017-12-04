@@ -6,13 +6,13 @@ version: 1.0.0
 apiversion: 4
 architectures: arm64-v8a armeabi-v7a x86
 description: titanium-web-dialog
-author: Hans Knoechel
-license: Specify your license
-copyright: Copyright (c) 2017 by Your Company
+author: Prashant Saini
+license: Apache 2.0
+copyright: Copyright (c) 2017 by Axway Appcelerator & Prashant Saini
 
 # these should not be edited
 name: titanium-web-dialog
 moduleid: ti.webdialog
 guid: 1f19cce1-0ad7-4e25-ab3b-0666f54a0a49
 platform: android
-minsdk: 7.0.0.v20171128203009
+minsdk: 7.0.0
