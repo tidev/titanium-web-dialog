@@ -1,0 +1,116 @@
+---
+name: Modules.WebDialog.AuthenticationSession
+summary: Authenticate a user with a web service, even if the web service is run by a third party.
+platforms: [iphone, ipad]
+since: "7.1.0"
+extends: Titanium.Proxy
+osver: { ios: { min: "11.0" } }
+description: |
+    
+    The `AuthenticationSession` puts the user in control of whether they want to use 
+    their existing logged-in session from Safari. The app provides a URL that points 
+    to the authentication webpage. The page will be loaded in a secure view controller. 
+    From the webpage, the user can authenticate herself and grant access to the app. 
+    On completion, the service will send a callback URL with an authentication token, 
+    and this URL will be passed to the app by the `callback`.
+
+    The callback URL usually has a custom URL scheme. For the app to receive the 
+    callback URL, it needs to either register the custom URL scheme in its Info.plist, 
+    or set the scheme to `scheme` argument in the initializer.
+
+    If the user has already logged into the web service in Safari or other apps via 
+    the `AuthenticationSession`, it is possible to share the existing login information. 
+    An alert will be presented to get the user's consent for sharing their existing login
+    information. If the user cancels the alert, the session will be canceled, and 
+    the callback will be called.
+
+    If the user taps Cancel when showing the login webpage for the web service, 
+    the session will be canceled, and the callback will be called as well.
+
+    The app can cancel the session by calling `cancel()`. This will also dismiss 
+    the window that is showing the web service's login page.
+
+    ### Requirements
+
+    The AuthenticationSession API is available with the Titanium SDK starting with Release 7.1.0.
+    This module only works with devices running iOS 11.0 and later.
+    Please make sure you have at least Xcode 9 to build to the required sources.
+
+    ### Getting Started
+
+    Create a new authentication session by providing a `url` and `scheme`, create an event-listener and start:
+        
+        var WebDialog = require('ti.webdialog');
+        
+        var authSession = WebDialog.createAuthenticationSession({
+          url: 'https://example.com/oauth?callbackURL=myapp://',
+          scheme: 'myapp://'
+        });
+        
+        authSession.addEventListener('callback', function(e) {
+          if (!e.success) {
+              Ti.API.error('Error authenticating: ' + e.error);
+              return;
+          }
+          
+          Ti.API.info('Callback URL: ' + e.callbackURL);
+        });
+        
+        authSession.start(); // Or cancel() to cancel it manually.
+
+properties:
+  - name: url
+    summary: |
+        The initial URL pointing to the authentication webpage. 
+        Only supports URLs with http:// or https:// schemes.
+    type: String
+
+  - name: scheme
+    summary: The custom URL scheme that the app expects in the callback URL.
+    type: String
+
+events:
+  - name: callback
+    summary: |
+        The callback which is called when the session is completed successfully 
+        or canceled by user.
+    properties:
+      - name: error
+        summary: The error-message returned in case something went wrong.
+        type: String
+      - name: callbackURL
+        summary: The callback-URL returned in case the OAuth-flow succeeded.
+        type: String 
+
+methods:
+  - name: start
+    summary: Starts the `AuthenticationSession` instance after it is instantiated.
+    description: |
+        The `start` method can only be called once for an `AuthenticationSession` 
+        instance. This also means calling start on a canceled session will fail.
+    returns:
+        type: Boolean
+        summary: Returns `true` if the session starts successfully.
+
+  - name: cancel
+    summary: Cancel an authentication-session. 
+    description: |
+        If the view controller is already presented to load the webpage for 
+        authentication, it will be dismissed. Calling cancel on an already canceled 
+        session will have no effect.
+               
+---
+name: AuthenticationSessionCallback
+summary: The callback which is called when the session is completed successfully or canceled by user.
+properties:
+  - name: callbackURL
+    summary: The callback-url passed if no error occured, undefined otherwise.
+    type: String
+
+  - name: error
+    summary: The error returned if the authentication-session failed, undefined otherwise.
+    type: String
+
+  - name: success
+    summary: Returns `true` if the authentication-session completed successfully, `false` otherwise.
+    type: Boolean

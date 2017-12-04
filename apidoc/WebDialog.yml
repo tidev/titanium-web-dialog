@@ -1,0 +1,197 @@
+---
+name: Modules.WebDialog
+summary: Allows a Titanium application to use the Safari Controller (iOS) and Chrome Tabs (Android) to create an embedded browser.
+platforms: [iphone, ipad, android]
+since: "7.1.0"
+extends: Titanium.Module
+osver: { ios: { min: "9.0" }, android: { min: "4.1" } }
+description: |
+    
+    The WebDialog module provides Titanium access to the native `SFSafariViewController` (iOS) and `ChromeTabs` (Android). 
+    This enables you to deliver interactive web content in your app just like the built-in browser, including the native UI elements already 
+    familiar to your users.
+
+    ### Requirements
+
+    The WebDialog module is available with the Titanium SDK starting with Release 7.1.0.
+    This module only works with devices running iOS 9 / Android 4.1 and later.
+    Please make sure you have at least Xcode 7 to build to the required iOS sources.
+
+    ### Getting Started
+
+    Add the module as a dependency to your application by adding a **`<module>`** item to the
+    **`<modules>`** element of your `tiapp.xml` file:
+
+        <ti:app>
+          ...
+          <modules>
+            <module platform="iphone">ti.webdialog</module>
+          </modules>
+          ...
+        </ti:app>
+
+    Use `require()` to access the module from JavaScript:
+
+        var dialog = require('ti.webdialog');
+
+    The `dialog` variable is a reference to the module. Make API calls using this reference:
+
+        if (dialog.isSupported()) {
+            dialog.open({
+                url: 'http://appcelerator.com'
+            });
+        }
+
+    ### Sample Application
+
+    The module contains a sample application in the
+    `<TITANIUM_SDK_HOME>/modules/iphone/ti.webdialog/<VERSION>/example/` folder.
+properties:
+  - name: DISMISS_BUTTON_STYLE_DONE
+    summary: Button style used to display a localized "Done" button.
+    description: Use with the `dismissButtonStyle` property in <Modules.WebDialog.open>.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+
+  - name: DISMISS_BUTTON_STYLE_CLOSE
+    summary: Button style used to display a localized "Close" button.
+    description: Use with the `dismissButtonStyle` property in <Modules.WebDialog.open>.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+
+  - name: DISMISS_BUTTON_STYLE_CANCEL
+    summary: Button style used to display a localized "Cancel" button.
+    description: Use with the `dismissButtonStyle` property in <Modules.WebDialog.open>.
+    type: Number
+    permission: read-only
+    platforms: [iphone, ipad]
+
+methods:
+  - name: isOpen
+    summary: Indicates if the web dialog is open.
+    osver: {ios: {min: "9.0"}}
+    returns:
+        type: Boolean
+    platforms: [iphone, ipad]
+
+  - name: isSupported
+    summary: Indicates if the web dialog is supported.
+    osver: {ios: {min: "9.0"}}
+    returns:
+        type: Boolean
+    platforms: [iphone, ipad]
+
+  - name: open
+    summary: Opens the web dialog with the options provided.
+    description: |
+        var dialog = require('ti.webdialog');
+        if (dialog.isSupported()) {
+            dialog.open({
+                url: 'http://appcelerator.com',
+                title: 'Hello World',
+                tintColor: 'red'
+            });
+        }
+    osver: {ios: {min: "9.0"}}
+    parameters:
+      - name: params
+        summary: Dictionary used to configure the web dialog.
+        type: WebDialogOpenParams
+
+  - name: close
+    summary: Programmatically closes the web dialog.
+    description: |
+        var dialog = require('ti.webdialog');
+        if (dialog.isOpen()) {
+            dialog.close();
+        }
+    osver: {ios: {min: "9.0"}}
+events:
+  - name: open
+    summary: |
+        The open event is fired after the web dialog has opened.
+    properties:
+      - name: url
+        summary: The URL provided when opening the web dialog
+        type: String
+    platforms: [iphone, ipad]
+
+  - name: close
+    summary: |
+        The close event is fired when the web dialog is closed by the user 
+        or programmatically.
+    properties:
+      - name: url
+        summary: The URL provided when opening the web dialog
+        type: String
+    platforms: [iphone, ipad]
+
+  - name: load
+    summary: Fired when the initial URL load is complete.
+    description: |
+        This event is invoked when the erb dialog completes the loading of the 
+        URL that you pass to it's initializer. It is not invoked for any subsequent 
+        page loads in the same web dialog instance. 
+        
+        Note: This event is available in Titanium SDK 6.0.0 and later.
+    properties:
+      - name: url
+        summary: The URL provided when opening the web dialog
+        type: String
+      - name: success
+        summary: Returns `true` if loading completed successfully, `false` otherwise.
+        type: Boolean
+    platforms: [iphone, ipad]
+               
+---
+name: WebDialogOpenParams
+summary: Parmaters used in the <Modules.WebDialog.open> method
+properties:
+  - name: url
+    summary: The URL to be opened.
+    optional: false
+    type: String
+
+  - name: entersReaderIfAvailable
+    summary: Indicates if the reader version of content should be shown automatically.
+    optional: true
+    type: Boolean
+    platforms: [iphone, ipad]
+
+  - name: title
+    summary: The URL to be opened.
+    optional: true
+    type: String
+    platforms: [iphone, ipad]
+
+  - name: tintColor
+    summary: The tint-color of the web dialog.
+    optional: true
+    type: String
+    platforms: [iphone, ipad]
+
+  - name: barColor
+    summary: The bar-color of the web dialog. For iOS, available on iOS 10 and later.
+    optional: true
+    type: String
+
+  - name: dismissButtonStyle
+    summary: |
+        The dismiss-button-style of the web dialog close button.
+        Available on iOS 11 and later.
+    optional: true
+    type: Number
+    constants: [Modules.WebDialog.DISMISS_BUTTON_STYLE_*]
+     platforms: [iphone, ipad]
+
+  - name: barCollapsingEnabled
+    summary: |
+        Indicates if the web dialog should enable collapsing of the navigation 
+        bar and hiding of the bottom toolbar when the user scrolls web content.
+        Available on iOS 11 and later.
+    optional: true
+    default: true
+    type: Boolean
+    platforms: [iphone, ipad]
