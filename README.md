@@ -5,6 +5,11 @@ as a pre-packaged module for Titanium SDK 7.1.0 and later.
 
 <img src="./fixtures/DQM57Q7X4AAF8yR.jpg" width="800" alt="Titanium Web Dialog" />
 
+## Requirements
+
+- Titanium SDK 7.0.0 or later (or use the [SDK-6-compatibility](https://github.com/appcelerator-modules/titanium-web-dialog/tree/SDK-6-compatibility) Titanium SDK 6.x)
+- iOS 9 and Android 4.1
+
 ## Roadmap
 
 - [x] Find suitable module name
@@ -12,6 +17,11 @@ as a pre-packaged module for Titanium SDK 7.1.0 and later.
 - [x] Adjust existing docs from Ti.SafariDialog to support Android as well
 - [x] Write cross-platform example and tests
 - [ ] Pre-package in the SDK, release module
+
+## Android Legacy Support
+
+This module is designed to work with the latest platform API's that are covered by the Titanium SDK 7.0.0 and later.
+If you want to use this module in Titanium SDK 6.x, please use the [this version](https://github.com/appcelerator-modules/titanium-web-dialog/raw/SDK-6-compatibility/android/legacy/ti.webdialog-android-1.0.0.zip).
 
 ## API's
 
