@@ -3,6 +3,8 @@
 Use the SFSafariViewController (iOS) and Chrome Pages (Android) together. Currently in development and scheduled 
 as a pre-packaged module for Titanium SDK 7.1.0 and later.
 
+<img src="./fixtures/DQM57Q7X4AAF8yR.jpg" width="800" alt="Titanium Web Dialog" />
+
 ## Roadmap
 
 - [x] Find suitable module name
