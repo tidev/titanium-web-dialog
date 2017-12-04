@@ -11,6 +11,36 @@ as a pre-packaged module for Titanium SDK 7.1.0 and later.
 - [x] Write cross-platform example and tests
 - [ ] Pre-package in the SDK, release module
 
+## API's
+
+### Top-Level
+
+#### Methods
+
+* `open(arguments)`
+    * `url` (String)
+    * `barColor` (String)
+    * `animated` (Boolean, iOS only)
+    * `entersReaderIfAvailable` (Boolean, iOS only)
+    * `barCollapsingEnabled` (Boolean, iOS only)
+    * `title` (String, iOS only)
+    * `tintColor` (String, iOS only)
+    * `dismissButtonStyle` (`DISMISS_BUTTON_STYLE_*`, iOS only)
+    * `showTitle` (Boolean, Android only)
+    * `fadeTransition` (Boolean, Android only)
+  
+* `isSupported()` -> Boolean
+* `isOpen()` (iOS only) -> Boolean
+* `close()` (iOS only)
+
+#### Properties
+
+* `DISMISS_BUTTON_STYLE_DONE` (iOS only)
+* `DISMISS_BUTTON_STYLE_CLOSE` (iOS only)
+* `DISMISS_BUTTON_STYLE_CANCEL` (iOS only)
+
+### `AuthenticationSession` (iOS only)
+
 ## License
 
 Apache 2.0
