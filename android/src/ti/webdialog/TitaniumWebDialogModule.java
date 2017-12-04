@@ -21,6 +21,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.app.PendingIntent;
+import android.graphics.BitmapFactory;
+
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsService;
 
@@ -69,6 +72,22 @@ public class TitaniumWebDialogModule extends KrollModule
     if (Utils.getBool(options, Params.FADE_TRANSITION)) {
       builder.setStartAnimations(context, android.R.anim.fade_in, android.R.anim.fade_out);
       builder.setExitAnimations(context, android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+    
+    //enable Share link option
+    if (Utils.getBool(options, Params.ENABLE_SHARING)) {
+    	builder.addDefaultShareMenuItem();
+    }
+    
+    //set close button icon from R.drawable if exists, else use default close icon
+    String closeIcon = Utils.getString(options, Params.CLOSE_ICON); 
+    if (!closeIcon.isEmpty()) {
+    	closeIcon = "drawable." + closeIcon;
+    	int drawable = Utils.getR(closeIcon);
+    	
+    	if (drawable != -1) {
+    		builder.setCloseButtonIcon(BitmapFactory.decodeResource(TiApplication.getAppRootOrCurrentActivity().getResources(), drawable));
+    	}
     }
     
     CustomTabsIntent tabIntent = builder.build();

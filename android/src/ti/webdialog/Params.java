@@ -6,4 +6,6 @@ public class Params {
 	public static final String URL = "url";
 	public static final String BAR_COLOR = "barColor";
 	public static final String FADE_TRANSITION = "fadeTransition";
+	public static final String ENABLE_SHARING = "enableSharing";
+	public static final String CLOSE_ICON = "closeIcon";
 }

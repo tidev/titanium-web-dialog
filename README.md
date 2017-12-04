@@ -40,6 +40,8 @@ If you want to use this module in Titanium SDK 6.x, please use the [this version
     * `dismissButtonStyle` (`DISMISS_BUTTON_STYLE_*`, iOS only)
     * `showTitle` (Boolean, Android only)
     * `fadeTransition` (Boolean, Android only)
+    * `enableSharing` (Boolean, Android only) - Enable Share... menu item to share link
+    * `closeIcon` (String, Android only) - name of the icon in drawable folders, pass without .png extension
   
 * `isSupported()` -> Boolean
 * `isOpen()` (iOS only) -> Boolean
