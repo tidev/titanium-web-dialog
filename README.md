@@ -46,5 +46,5 @@ as a pre-packaged module for Titanium SDK 7.1.0 and later.
 Apache 2.0
 
 ## Author
-- Hans Knöchel
-- Prashant Saini
+- [Hans Knöchel](https://github.com/hansemannn)
+- [Prashant Saini](https://github.com/prashantsaini1)
