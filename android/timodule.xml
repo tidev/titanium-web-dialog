@@ -8,10 +8,4 @@
 	</iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
 	</android>
-	<mobileweb>
-	</mobileweb>
-
-	<!-- these properties are not required now because SDK 7.0.0 uses Java 7 as the default compiler
-	 <property name="android.javac.source" type="string">1.7</property>
-  	<property name="android.javac.target" type="string">1.7</property> -->
 </ti:module>

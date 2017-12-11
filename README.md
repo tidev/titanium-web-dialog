@@ -41,7 +41,7 @@ If you want to use this module in Titanium SDK 6.x, please use the [this version
     * `showTitle` (Boolean, Android only)
     * `fadeTransition` (Boolean, Android only)
     * `enableSharing` (Boolean, Android only) - Enable Share... menu item to share link
-    * `closeIcon` (String, Android only) - name of the icon in drawable folders, pass without .png extension
+    * `closeIcon` (String, Android only) - image path to show as close-button icon
   
 * `isSupported()` -> Boolean
 * `isOpen()` (iOS only) -> Boolean

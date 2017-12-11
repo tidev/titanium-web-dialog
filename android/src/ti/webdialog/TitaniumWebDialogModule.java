@@ -15,17 +15,24 @@ import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiApplication;
+import org.appcelerator.titanium.TiBlob;
+import org.appcelerator.titanium.util.TiFileHelper;
+import org.appcelerator.titanium.util.TiUIHelper;
+import org.appcelerator.titanium.util.TiUrl;
+import org.appcelerator.titanium.view.TiDrawableReference;
 import org.appcelerator.kroll.common.Log;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.app.PendingIntent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsService;
+import android.util.DisplayMetrics;
 
 
 @Kroll.module(name="TitaniumWebDialog", id="ti.webdialog")
@@ -79,15 +86,9 @@ public class TitaniumWebDialogModule extends KrollModule
     	builder.addDefaultShareMenuItem();
     }
     
-    //set close button icon from R.drawable if exists, else use default close icon
     String closeIcon = Utils.getString(options, Params.CLOSE_ICON); 
     if (!closeIcon.isEmpty()) {
-    	closeIcon = "drawable." + closeIcon;
-    	int drawable = Utils.getR(closeIcon);
-    	
-    	if (drawable != -1) {
-    		builder.setCloseButtonIcon(BitmapFactory.decodeResource(TiApplication.getAppRootOrCurrentActivity().getResources(), drawable));
-    	}
+    	builder.setCloseButtonIcon( getIcon(closeIcon) );
     }
     
     CustomTabsIntent tabIntent = builder.build();
@@ -98,6 +99,39 @@ public class TitaniumWebDialogModule extends KrollModule
     
     tabIntent.launchUrl(context, Uri.parse(URL));
   }
+
+  
+  private Bitmap getIcon(String path) {
+	  Bitmap resultBitmap = null;
+	  
+	  if (path != null && !path.trim().equalsIgnoreCase("")) {
+		  String resourceIcon = path.replaceAll(".png", "");
+		  resourceIcon = "drawable." + resourceIcon;
+		  
+		  int resource = Utils.getR(resourceIcon);
+		  
+		  if (resource == 0) {
+			  TiUrl imageUrl = new TiUrl(path);
+			  TiFileHelper tfh = new TiFileHelper(TiApplication.getInstance());
+			  Drawable d = tfh.loadDrawable(imageUrl.resolve(), false);
+			  
+			  resultBitmap = ((BitmapDrawable) d).getBitmap();
+				
+		  } else {
+			  resultBitmap = BitmapFactory.decodeResource(TiApplication.getAppRootOrCurrentActivity().getResources(), resource);
+		  }
+	  }
+	  
+	  // important step to show close icon
+	  // rescale bitmap to 24dp(Height) x 48dp(Width) as mentioned here, otherwise it won't work
+	  // https://developer.chrome.com/multidevice/android/customtabs#choosing-an icon for the action button
+	  if (resultBitmap != null) {
+		  resultBitmap = Utils.rescaleBitmap(TiApplication.getAppRootOrCurrentActivity(), resultBitmap, 24, 48);
+	  }
+	  
+	  return resultBitmap;
+  }
+
   
   @Kroll.method
   public void open(KrollDict options) {
