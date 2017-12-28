@@ -64,7 +64,7 @@ public class TitaniumWebDialogModule extends KrollModule
     URL = URL.toLowerCase();
     
     if (!URL.startsWith("http")) {
-      URL = "http://" + URL;
+      Log.w(LCAT, "URL seems missing protocol prefix 'http' or 'https'.");
     }
     
     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
