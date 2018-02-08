@@ -1,14 +1,13 @@
 # Titanium Web Dialog
 
-Use the SFSafariViewController (iOS) and Chrome Pages (Android) together. Currently in development and scheduled 
-as a pre-packaged module for Titanium SDK 7.1.0 and later.
+Use the SFSafariViewController (iOS) and Chrome Pages (Android) together. 
 
 <img src="./fixtures/DQM57Q7X4AAF8yR.jpg" width="890" alt="Titanium Web Dialog" />
 
 ## Requirements
 
 - Titanium SDK 7.0.0 or later (or use the [SDK-6-compatibility](https://github.com/appcelerator-modules/titanium-web-dialog/tree/SDK-6-compatibility) Titanium SDK 6.x)
-- iOS 9 and Android 4.1
+- iOS 9+ and Android 4.1+
 
 ## Roadmap
 
@@ -16,7 +15,7 @@ as a pre-packaged module for Titanium SDK 7.1.0 and later.
 - [x] Create both modules on the same namespace (right now [Ti.SafariDialog](https://github.com/appcelerator-modules/ti.safaridialog) vs [Ti.ChromeTabs](https://github.com/prashantsaini1/ti-chrometabs))
 - [x] Adjust existing docs from Ti.SafariDialog to support Android as well
 - [x] Write cross-platform example and tests
-- [ ] Pre-package in the SDK, release module
+- [x] Release module
 
 ## Android Legacy Support
 
