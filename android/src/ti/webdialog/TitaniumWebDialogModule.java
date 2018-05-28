@@ -61,12 +61,6 @@ public class TitaniumWebDialogModule extends KrollModule
   
   private void openCustomTab(Context context, List<String> customTabBrowsers, KrollDict options) {
     String URL = options.getString(Params.URL);
-    URL = URL.toLowerCase();
-    
-    if (!URL.startsWith("http")) {
-      Log.w(LCAT, "URL seems missing protocol prefix 'http' or 'https'.");
-    }
-    
     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
     builder.setShowTitle(Utils.getBool(options, Params.SHOW_TITLE));
     
