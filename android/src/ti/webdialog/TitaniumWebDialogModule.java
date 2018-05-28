@@ -74,7 +74,12 @@ public class TitaniumWebDialogModule extends KrollModule
       builder.setStartAnimations(context, android.R.anim.fade_in, android.R.anim.fade_out);
       builder.setExitAnimations(context, android.R.anim.fade_in, android.R.anim.fade_out);
     }
-    
+
+    // hide navigation bar on scroll
+		if (Utils.getBool(options, Params.BAR_COLLAPSING_ENABLED)) {
+			builder.enableUrlBarHiding();
+		}
+
     //enable Share link option
     if (Utils.getBool(options, Params.ENABLE_SHARING)) {
     	builder.addDefaultShareMenuItem();
@@ -87,14 +92,13 @@ public class TitaniumWebDialogModule extends KrollModule
     
     CustomTabsIntent tabIntent = builder.build();
     
-    for(String s:customTabBrowsers) {
+    for(String s: customTabBrowsers) {
       tabIntent.intent.setPackage(s);
     }
     
     tabIntent.launchUrl(context, Uri.parse(URL));
   }
 
-  
   private Bitmap getIcon(String path) {
 	  Bitmap resultBitmap = null;
 	  
@@ -128,19 +132,27 @@ public class TitaniumWebDialogModule extends KrollModule
 
   
   @Kroll.method
-  public void open(KrollDict options) {
+  public void open(KrollDict options) {  
     if ((options != null) && options.containsKeyAndNotNull(Params.URL)) {
       Context context = TiApplication.getAppCurrentActivity();
       List<ResolveInfo> browsersList = Utils.allBrowsers(context);
       
+      KrollDict event = new KrollDict();
+
+      event.put("success", !browsersList.isEmpty());
+      event.put("url", options.getString(Params.URL));
+
       if (!browsersList.isEmpty()) {
         List<String> customTabBrowsers = getCustomTabBrowsers(context, browsersList);
         
         // show supported browsers list or open directly if only 1 supported browser is available
         openCustomTab(context, customTabBrowsers, options);
+
       } else {
         Log.i(Params.LCAT, "No browsers available in this device.");
       }
+
+      fireEvent("open", event);
     }
   }
 
@@ -154,12 +166,12 @@ public class TitaniumWebDialogModule extends KrollModule
   
   @Kroll.method
   public void close(KrollDict options) {
-    Log.e(Params.LCAT, "The \"close\" method is not implemented, yet!");
+    Log.e(Params.LCAT, "The \"close\" method is not implemented on Android, yet!");
   }
   
   @Kroll.method
   public boolean isOpen(KrollDict options) {
-    Log.e(Params.LCAT, "The \"isOpen\" method is not implemented, yet!");
+    Log.e(Params.LCAT, "The \"isOpen\" method is not implemented on Android, yet!");
     return false;
   }
 }

@@ -8,4 +8,5 @@ public class Params {
 	public static final String FADE_TRANSITION = "fadeTransition";
 	public static final String ENABLE_SHARING = "enableSharing";
 	public static final String CLOSE_ICON = "closeIcon";
+	public static final String BAR_COLLAPSING_ENABLED = "barCollapsingEnabled";
 }
