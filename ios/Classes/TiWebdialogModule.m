@@ -7,10 +7,10 @@
  */
 
 #import "TiWebdialogModule.h"
+#import "TiApp.h"
 #import "TiBase.h"
 #import "TiHost.h"
 #import "TiUtils.h"
-#import "TiApp.h"
 
 @implementation TiWebdialogModule
 
@@ -42,14 +42,15 @@
     [_safariController setDelegate:nil];
     _safariController = nil;
   }
-  
+
   _isOpen = NO;
-  
+
   if ([self _hasListeners:@"close"]) {
-    [self fireEvent:@"close" withObject:@{
-      @"success": NUMINT(YES),
-      @"url": [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-    }];
+    [self fireEvent:@"close"
+         withObject:@{
+           @"success" : NUMINT(YES),
+           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+         }];
   }
 }
 
@@ -67,7 +68,7 @@
       SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
       config.entersReaderIfAvailable = entersReaderIfAvailable;
       config.barCollapsingEnabled = barCollapsingEnabled;
-      
+
       _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
                                                         configuration:config];
     } else {
@@ -77,30 +78,32 @@
 #if IS_IOS_11
     }
 #endif
-    
+
     [_safariController setDelegate:self];
   }
-  
+
   return _safariController;
 }
 
 - (void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully
 {
   if ([self _hasListeners:@"load"]) {
-    [self fireEvent:@"load" withObject:@{
-                                         @"url": [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                                         @"success": NUMBOOL(didLoadSuccessfully)
-                                         }];
+    [self fireEvent:@"load"
+         withObject:@{
+           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+           @"success" : NUMBOOL(didLoadSuccessfully)
+         }];
   }
 }
 
 - (void)safariViewController:(SFSafariViewController *)controller initialLoadDidRedirectToURL:(NSURL *)URL
 {
-    if ([self _hasListeners:@"redirect"]) {
-      [self vent:@"redirect" withObject:@{
-                                          @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
-                                          }];
-    }
+  if ([self _hasListeners:@"redirect"]) {
+    [self fireEvent:@"redirect"
+         withObject:@{
+           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+         }];
+  }
 }
 
 #pragma Public APIs
@@ -117,8 +120,8 @@
 
 - (void)close:(id)unused
 {
-  ENSURE_UI_THREAD(close,unused);
-  
+  ENSURE_UI_THREAD(close, unused);
+
   if (_safariController != nil) {
     [[TiApp app] hideModalController:_safariController animated:YES];
     [self teardown];
@@ -128,39 +131,39 @@
 
 - (void)open:(id)args
 {
-  ENSURE_SINGLE_ARG(args,NSDictionary);
-  ENSURE_UI_THREAD(open,args);
-  
+  ENSURE_SINGLE_ARG(args, NSDictionary);
+  ENSURE_UI_THREAD(open, args);
+
   if (![args objectForKey:@"url"]) {
     NSLog(@"[ERROR] url is required");
     return;
   }
-  
+
   _url = [TiUtils stringValue:@"url" properties:args];
   BOOL animated = [TiUtils boolValue:@"animated" properties:args def:YES];
   BOOL entersReaderIfAvailable = [TiUtils boolValue:@"entersReaderIfAvailable" properties:args def:YES];
   BOOL barCollapsingEnabled = NO;
-  
+
 #if IS_IOS_11
   barCollapsingEnabled = [TiUtils boolValue:@"barCollapsingEnabled" properties:args def:YES];
 #endif
-  
+
   SFSafariViewController *safari = [self safariController:_url withEntersReaderIfAvailable:entersReaderIfAvailable andBarCollapsingEnabled:barCollapsingEnabled];
-  
+
   if ([args objectForKey:@"title"]) {
     [safari setTitle:[TiUtils stringValue:@"title" properties:args]];
   }
-  
+
   if ([args objectForKey:@"tintColor"]) {
     TiColor *newColor = [TiUtils colorValue:@"tintColor" properties:args];
-    
+
     if ([TiUtils isIOS10OrGreater]) {
       [safari setPreferredControlTintColor:[newColor _color]];
     } else {
       [[safari view] setTintColor:[newColor _color]];
     }
   }
-  
+
   if ([args objectForKey:@"barColor"]) {
     if ([TiUtils isIOS10OrGreater]) {
       [safari setPreferredBarTintColor:[[TiUtils colorValue:@"barColor" properties:args] _color]];
@@ -168,7 +171,7 @@
       NSLog(@"[ERROR] Ti.WebDialog: The barColor property is only available in iOS 10 and later");
     }
   }
-  
+
 #if IS_IOS_11
   if ([args objectForKey:@"dismissButtonStyle"]) {
     if (@available(iOS 11.0, *)) {
@@ -178,17 +181,17 @@
     }
   }
 #endif
-  
-  [[TiApp app] showModalController:safari animated:animated];
-  
+
+  [[TiApp app] showModalController:safari
+                          animated:animated];
+
   _isOpen = YES;
-  
+
   if ([self _hasListeners:@"open"]) {
     NSDictionary *event = [NSDictionary dictionaryWithObjectsAndKeys:
-                           NUMINT(YES),@"success",
-                           _url,@"url",
-                           nil
-                           ];
+                                            NUMINT(YES), @"success",
+                                        _url, @"url",
+                                        nil];
     [self fireEvent:@"open" withObject:event];
   }
 }

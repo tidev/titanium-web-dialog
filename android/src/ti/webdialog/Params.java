@@ -1,6 +1,7 @@
 package ti.webdialog;
 
-public class Params {
+public class Params
+{
 	public static final String LCAT = "TiChromeDialog";
 	public static final String SHOW_TITLE = "showTitle";
 	public static final String URL = "url";

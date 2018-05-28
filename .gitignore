@@ -7,3 +7,4 @@ xcuserdata/
 build/
 /android/dist
 ios/titanium-web-dialog.xcodeproj/project.xcworkspace/xcuserdata
+android/libs
