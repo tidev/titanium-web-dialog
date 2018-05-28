@@ -18,26 +18,26 @@
   if (_authSession == nil) {
     NSString *url = [TiUtils stringValue:[self valueForKey:@"url"]];
     NSString *scheme = [TiUtils stringValue:[self valueForKey:@"scheme"]];
-    
+
     _authSession = [[SFAuthenticationSession alloc] initWithURL:[TiUtils toURL:url proxy:self]
                                               callbackURLScheme:[TiUtils stringValue:scheme]
                                               completionHandler:^(NSURL *callbackURL, NSError *error) {
                                                 NSMutableDictionary *event = [NSMutableDictionary dictionaryWithDictionary:@{
-                                                  @"success": NUMBOOL(error == nil)
+                                                  @"success" : NUMBOOL(error == nil)
                                                 }];
-                                                
+
                                                 if (error != nil) {
                                                   [event setObject:[error localizedDescription] forKey:@"error"];
                                                 } else {
                                                   [event setObject:[callbackURL absoluteString] forKey:@"callbackURL"];
                                                 }
-                                                
+
                                                 if ([self _hasListeners:@"callback"]) {
                                                   [self fireEvent:@"callback" withObject:event];
                                                 }
                                               }];
   }
-  
+
   return _authSession;
 }
 
