@@ -109,7 +109,7 @@ events:
         The open event is fired after the web dialog has opened.
     properties:
       - name: url
-        summary: The URL provided when opening the web dialog
+        summary: The URL provided when opening the web dialog.
         type: String
     platforms: [iphone, ipad]
 
@@ -119,7 +119,7 @@ events:
         or programmatically.
     properties:
       - name: url
-        summary: The URL provided when opening the web dialog
+        summary: The URL provided when opening the web dialog.
         type: String
     platforms: [iphone, ipad]
 
@@ -133,11 +133,19 @@ events:
         Note: This event is available in Titanium SDK 6.0.0 and later.
     properties:
       - name: url
-        summary: The URL provided when opening the web dialog
+        summary: The URL provided when opening the web dialog.
         type: String
       - name: success
         summary: Returns `true` if loading completed successfully, `false` otherwise.
         type: Boolean
+    platforms: [iphone, ipad]
+
+  - name: redirect
+    summary: Fired when the browser is redirected to another URL before the first page load finishes.
+    properties:
+      - name: url
+        summary: The URL provided when opening the web dialog.
+        type: String
     platforms: [iphone, ipad]
                
 ---
@@ -179,7 +187,7 @@ properties:
     optional: true
     type: Number
     constants: [Modules.WebDialog.DISMISS_BUTTON_STYLE_*]
-     platforms: [iphone, ipad]
+    platforms: [iphone, ipad]
 
   - name: barCollapsingEnabled
     summary: |
@@ -189,4 +197,4 @@ properties:
     optional: true
     default: true
     type: Boolean
-    platforms: [iphone, ipad]
+    platforms: [iphone, ipad, android]

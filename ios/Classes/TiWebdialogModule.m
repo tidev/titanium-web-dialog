@@ -94,6 +94,15 @@
   }
 }
 
+- (void)safariViewController:(SFSafariViewController *)controller initialLoadDidRedirectToURL:(NSURL *)URL
+{
+    if ([self _hasListeners:@"redirect"]) {
+      [self vent:@"redirect" withObject:@{
+                                          @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+                                          }];
+    }
+}
+
 #pragma Public APIs
 
 - (NSNumber *)isOpen:(id)unused
