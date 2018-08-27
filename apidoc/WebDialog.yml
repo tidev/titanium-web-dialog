@@ -38,7 +38,7 @@ description: |
 
         if (dialog.isSupported()) {
             dialog.open({
-                url: 'http://appcelerator.com'
+                url: 'https://appcelerator.com'
             });
         }
 
@@ -46,6 +46,7 @@ description: |
 
     The module contains a sample application in the
     `<TITANIUM_SDK_HOME>/modules/iphone/ti.webdialog/<VERSION>/example/` folder.
+
 properties:
   - name: DISMISS_BUTTON_STYLE_DONE
     summary: Button style used to display a localized "Done" button.
@@ -86,7 +87,7 @@ methods:
         var dialog = require('ti.webdialog');
         if (dialog.isSupported()) {
             dialog.open({
-                url: 'http://appcelerator.com',
+                url: 'https://appcelerator.com',
                 title: 'Hello World',
                 tintColor: 'red'
             });
@@ -128,9 +129,7 @@ events:
     description: |
         This event is invoked when the erb dialog completes the loading of the 
         URL that you pass to it's initializer. It is not invoked for any subsequent 
-        page loads in the same web dialog instance. 
-        
-        Note: This event is available in Titanium SDK 6.0.0 and later.
+        page loads in the same web dialog instance.         
     properties:
       - name: url
         summary: The URL provided when opening the web dialog.
@@ -183,7 +182,7 @@ properties:
   - name: dismissButtonStyle
     summary: |
         The dismiss-button-style of the web dialog close button.
-        Available on iOS 11 and later.
+        For iOS, this API is available on iOS 11 and later.
     optional: true
     type: Number
     constants: [Modules.WebDialog.DISMISS_BUTTON_STYLE_*]
@@ -193,7 +192,7 @@ properties:
     summary: |
         Indicates if the web dialog should enable collapsing of the navigation 
         bar and hiding of the bottom toolbar when the user scrolls web content.
-        Available on iOS 11 and later.
+        For iOS, this API is available on iOS 11 and later.
     optional: true
     default: true
     type: Boolean

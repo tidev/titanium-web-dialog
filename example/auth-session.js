@@ -6,14 +6,13 @@ var authSession = WebDialog.createAuthenticationSession({
 });
 
 // Invoked when the server returns a callback-URL
-authSession.addEventListener('callback', function(e) {
-  if (!e.success) {
-    Ti.API.error('Error authenticating: ' + e.error);
+authSession.addEventListener('callback', function (event) {
+  if (!event.success) {
+    Ti.API.error('Error authenticating: ' + event.error);
     return;
   }
 
-  Ti.API.info('Callback URL: ' + e.callbackURL);
-
+  Ti.API.info('Callback URL: ' + event.callbackURL);
 });
 
 var win = Ti.UI.createWindow({
@@ -24,7 +23,7 @@ var btn = Ti.UI.createButton({
   title: 'Start OAuth-session'
 });
 
-btn.addEventListener('click', function() {
+btn.addEventListener('click', function () {
   if (!authSession.isSupported()) {
     return Ti.API.error('This API is iOS 11+ only');
   }

@@ -2,7 +2,7 @@
 
 Use the native `SFSafariViewController` (iOS) and `Chrome Pages` (Android) within Axway Titanium. 
 
-<img src="./fixtures/DQM57Q7X4AAF8yR.jpg" width="890" alt="Titanium Web Dialog" />
+<img src="./fixtures/example-screens.jpg" width="890" alt="Titanium Web Dialog" />
 
 ## Requirements
 
@@ -57,6 +57,16 @@ If you want to use this module in Titanium SDK 6.x, please use the [this version
 * `redirect` -> `url` (String) - iOS only
 
 ### `AuthenticationSession` (iOS only)
+
+#### Methods
+
+* `createAuthenticationSession(arguments)`
+    * `url` (String)
+    * `scheme` (String) 
+
+#### Events
+
+* `callback` -> `success` (Boolean), `callbackURL` (String)
 
 ## License
 
