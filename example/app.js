@@ -14,7 +14,7 @@ btnOpenDialog.addEventListener('click', function () {
   WebDialog.open({
     url: 'https://appcelerator.com',
     title: 'Hello World',
-    
+
     // iOS 10+
     tintColor: 'red',
     barColor: 'green',
@@ -33,4 +33,4 @@ WebDialog.addEventListener('close', function (event) {
   console.log('close: ' + JSON.stringify(event));
 });
 
-nav.open();
+win.open();
