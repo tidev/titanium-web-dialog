@@ -62,7 +62,19 @@ If you want to use this module in Titanium SDK 6.x, please use the [this version
 
 * `createAuthenticationSession(arguments)`
     * `url` (String)
-    * `scheme` (String) 
+    * `scheme` (String)
+
+#### Events
+
+* `callback` -> `success` (Boolean), `callbackURL` (String)
+
+### `ASWebAuthenticationSession` (iOS 12+ only)
+
+#### Methods
+
+* `createASWebAuthenticationSession(arguments)`
+    * `url` (String)
+    * `scheme` (String)
 
 #### Events
 
