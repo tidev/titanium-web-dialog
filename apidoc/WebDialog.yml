@@ -149,7 +149,7 @@ events:
                
 ---
 name: WebDialogOpenParams
-summary: Parmaters used in the <Modules.WebDialog.open> method
+summary: Parameters used in the <Modules.WebDialog.open> method
 properties:
   - name: url
     summary: The URL to be opened.
@@ -197,3 +197,10 @@ properties:
     default: true
     type: Boolean
     platforms: [iphone, ipad, android]
+
+  - name: intentFlags
+    summary: Intent flags to be used for the Chrome Custom Tab, specified as a Bitwise-OR
+    optional: true
+    type: Number
+    constants: Titanium.Android.FLAG_*
+    platform: [android]
