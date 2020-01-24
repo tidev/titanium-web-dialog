@@ -30,8 +30,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.customtabs.CustomTabsService;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsService;
 import android.util.DisplayMetrics;
 
 @Kroll.module(name = "TitaniumWebDialog", id = "ti.webdialog")
