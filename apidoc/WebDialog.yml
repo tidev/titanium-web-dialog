@@ -203,4 +203,4 @@ properties:
     optional: true
     type: Number
     constants: Titanium.Android.FLAG_*
-    platform: [android]
+    platforms: [android]
