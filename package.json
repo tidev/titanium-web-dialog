@@ -1,0 +1,78 @@
+{
+  "name": "@titanium-sdk/ti.webdialog",
+  "version": "2.0.0",
+  "description": "Use the native `SFSafariViewController` (iOS) and `Chrome Pages` (Android) within Axway Titanium.",
+  "scripts": {
+    "commit": "git-cz",
+    "format": "npm run format:android && npm run format:ios && npm run format:js",
+    "format:android": "npm run lint:android -- --fix",
+    "format:ios": "npm run lint:ios -- --fix",
+    "format:js": "npm run lint:js -- --fix",
+    "lint": "npm run lint:android && npm run lint:ios && npm run lint:js && npm run lint:docs",
+    "lint:android": "clang-format-lint android/src/**/*.java",
+    "lint:docs": "tdoc-validate -w Titanium.Proxy,Titanium.Module apidoc",
+    "lint:ios": "clang-format-lint ios/**/*.m ios/**/*.h",
+    "lint:js": "eslint .",
+    "test": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appcelerator-modules/titanium-web-dialog.git"
+  },
+  "bugs": {
+    "url": "https://github.com/appcelerator-modules/titanium-web-dialog/issues"
+  },
+  "homepage": "https://github.com/appcelerator-modules/titanium-web-dialog#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@seadub/clang-format-lint": "0.0.2",
+    "@seadub/danger-plugin-dependencies": "^0.1.0",
+    "@seadub/danger-plugin-junit": "^0.1.1",
+    "@seadub/danger-plugin-titanium-module": "0.0.4",
+    "clang-format": "^1.2.3",
+    "commitizen": "^4.0.3",
+    "danger": "^7.1.0",
+    "eslint": "^5.10.0",
+    "eslint-config-axway": "^4.1.1",
+    "eslint-plugin-jasmine": "^2.10.1",
+    "husky": "^3.0.8",
+    "jasmine-core": "^3.3.0",
+    "karma": "^4.0.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-junit-reporter": "^1.2.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-titanium-launcher": "^0.7.5",
+    "lint-staged": "^9.4.1",
+    "socket.io": "^2.2.0",
+    "titanium-docgen": "^0.2.0"
+  },
+  "dependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "ios/**/*.{m,h}": [
+      "npx clang-format -style=file -i",
+      "git add"
+    ],
+    "*.java": [
+      "npx clang-format -style=file -i",
+      "git add"
+    ],
+    "*.js": "eslint"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
