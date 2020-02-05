@@ -36,7 +36,7 @@
     "eslint": "^5.10.0",
     "eslint-config-axway": "^4.1.1",
     "husky": "^4.2.1",
-    "lint-staged": "^9.4.1",
+    "lint-staged": "^10.0.7",
     "titanium-docgen": "^4.2.0"
   },
   "dependencies": {},
