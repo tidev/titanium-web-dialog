@@ -1,20 +1,18 @@
 package ti.webdialog;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
-import org.appcelerator.kroll.KrollDict;
-import org.appcelerator.titanium.TiApplication;
-import org.appcelerator.titanium.util.TiRHelper;
-import org.appcelerator.titanium.util.TiConvert;
-import org.appcelerator.titanium.util.TiRHelper.ResourceNotFoundException;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.DisplayMetrics;
+import java.lang.reflect.Field;
+import java.util.List;
+import org.appcelerator.kroll.KrollDict;
+import org.appcelerator.titanium.TiApplication;
+import org.appcelerator.titanium.util.TiConvert;
+import org.appcelerator.titanium.util.TiRHelper;
+import org.appcelerator.titanium.util.TiRHelper.ResourceNotFoundException;
 
 public class Utils
 {
