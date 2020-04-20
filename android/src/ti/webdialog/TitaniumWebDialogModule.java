@@ -8,6 +8,8 @@
  */
 package ti.webdialog;
 
+import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -16,9 +18,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
+import androidx.browser.customtabs.CustomTabsCallback;
+import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsService;
+import androidx.browser.customtabs.CustomTabsServiceConnection;
+import androidx.browser.customtabs.CustomTabsSession;
 import java.util.ArrayList;
 import java.util.List;
 import org.appcelerator.kroll.KrollDict;
@@ -37,6 +44,52 @@ public class TitaniumWebDialogModule extends KrollModule
 {
 	// Standard Debugging variables
 	private static final String LCAT = "TiWebDialog";
+	private CustomTabsSession mCustomTabsSession;
+	private CustomTabsClient mCustomTabsClient;
+	private CustomTabsServiceConnection mCustomTabsServiceConnection;
+	private String url = "";
+
+	public TitaniumWebDialogModule()
+	{
+		Context context = TiApplication.getAppCurrentActivity();
+
+		mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
+			@Override
+			public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient)
+			{
+				mCustomTabsClient = customTabsClient;
+				mCustomTabsClient.warmup(0L);
+				mCustomTabsSession = mCustomTabsClient.newSession(new CustomTabsCallback() {
+					@Override
+					public void onNavigationEvent(int navigationEvent, Bundle extras)
+					{
+						super.onNavigationEvent(navigationEvent, extras);
+
+						KrollDict event = new KrollDict();
+						if (navigationEvent == TAB_HIDDEN) {
+							event.put("url", url);
+							fireEvent("close", event);
+						}
+					}
+
+					@Override
+					public void extraCallback(String callbackName, Bundle args)
+					{
+						super.extraCallback(callbackName, args);
+					}
+				});
+			}
+
+			@Override
+			public void onServiceDisconnected(ComponentName name)
+			{
+				Log.d(LCAT, "disconnected");
+				mCustomTabsClient = null;
+			}
+		};
+
+		CustomTabsClient.bindCustomTabsService(context, "com.android.chrome", mCustomTabsServiceConnection);
+	}
 
 	private List<String> getCustomTabBrowsers(Context context, List<ResolveInfo> browsersList)
 	{
@@ -59,8 +112,8 @@ public class TitaniumWebDialogModule extends KrollModule
 
 	private void openCustomTab(Context context, List<String> customTabBrowsers, KrollDict options)
 	{
-		String URL = options.getString(Params.URL);
-		CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+		url = options.getString(Params.URL);
+		CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(mCustomTabsSession);
 		builder.setShowTitle(Utils.getBool(options, Params.SHOW_TITLE));
 
 		int barColor = Utils.getColor(options, Params.BAR_COLOR);
@@ -99,7 +152,7 @@ public class TitaniumWebDialogModule extends KrollModule
 			tabIntent.intent.setPackage(s);
 		}
 
-		tabIntent.launchUrl(context, Uri.parse(URL));
+		tabIntent.launchUrl(context, Uri.parse(url));
 	}
 
 	private Bitmap getIcon(String path)
@@ -154,7 +207,7 @@ public class TitaniumWebDialogModule extends KrollModule
 				openCustomTab(context, customTabBrowsers, options);
 
 			} else {
-				Log.i(Params.LCAT, "No browsers available in this device.");
+				Log.d(Params.LCAT, "No browsers available in this device.");
 			}
 
 			fireEvent("open", event);
