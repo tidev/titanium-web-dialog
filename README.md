@@ -52,7 +52,7 @@ If you want to use this module in Titanium SDK 6.x, please use the [this version
 #### Events
 
 * `open` -> `success` (Boolean), `url` (String)
-* `close` -> `success` (Boolean), `url` (String) - iOS only
+* `close` -> `success` (Boolean), `url` (String)
 * `load` -> `success` (Boolean), `url` (String) - iOS only
 * `redirect` -> `url` (String) - iOS only
 
