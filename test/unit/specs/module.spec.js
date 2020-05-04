@@ -1,4 +1,5 @@
 let webDialog;
+let authSession;
 
 const IOS = (Ti.Platform.osname === 'iphone' || Ti.Platform.osname === 'ipad');
 
@@ -8,6 +9,13 @@ describe('ti.webDialog', function () {
 		webDialog = require('ti.webdialog');
 
 		expect(webDialog).toBeDefined();
+
+		if (IOS) {
+			authSession = webDialog.createAuthenticationSession({});
+
+			expect(authSession).toBeDefined();
+		}
+
 	});
 
 	describe('methods', () => {
@@ -45,9 +53,6 @@ describe('ti.webDialog', function () {
 		});
 
 		if (IOS) {
-
-			webDialog = require('ti.webdialog');
-			var authSession = webDialog.createAuthenticationSession({});
 
 			describe('authSession start()', () => {
 				it('is a Function', () => {
