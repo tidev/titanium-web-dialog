@@ -15,3 +15,9 @@
 #else
 #define IS_IOS_12 false
 #endif
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+#define IS_IOS_13 true
+#else
+#define IS_IOS_13 false
+#endif

@@ -10,7 +10,12 @@
 
 #import "TiProxy.h"
 
-@interface TiWebdialogAuthenticationSessionProxy : TiProxy {
+#if IS_IOS_13
+@interface TiWebdialogAuthenticationSessionProxy : TiProxy <ASWebAuthenticationPresentationContextProviding>
+#else
+@interface TiWebdialogAuthenticationSessionProxy : TiProxy
+#endif
+{
   id _authSession;
 }
 

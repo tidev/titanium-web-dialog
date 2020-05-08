@@ -29,6 +29,11 @@
                                                    completionHandler:^(NSURL *_Nullable callbackURL, NSError *_Nullable error) {
                                                      [self fireEventWithCallbackUrl:callbackURL andError:error];
                                                    }];
+#if IS_IOS_13
+      if ([TiUtils isIOSVersionOrGreater:@"13.0"]) {
+        ((ASWebAuthenticationSession *)_authSession).presentationContextProvider = self;
+      }
+#endif
     }
 #endif
     if (_authSession == nil) {
@@ -59,6 +64,15 @@
     [self fireEvent:@"callback" withObject:event];
   }
 }
+
+#pragma mark Delegate method
+
+#if IS_IOS_13
+- (ASPresentationAnchor)presentationAnchorForWebAuthenticationSession:(ASWebAuthenticationSession *)session
+{
+  return [[UIApplication sharedApplication] keyWindow];
+}
+#endif
 
 #pragma mark Public API's
 
