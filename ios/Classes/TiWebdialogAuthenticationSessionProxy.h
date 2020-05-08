@@ -9,10 +9,9 @@
 #if IS_IOS_11
 
 #import "TiProxy.h"
-#import <SafariServices/SafariServices.h>
 
 @interface TiWebdialogAuthenticationSessionProxy : TiProxy {
-  SFAuthenticationSession *_authSession;
+  id _authSession;
 }
 
 #pragma mark Public API's

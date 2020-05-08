@@ -115,7 +115,7 @@
 
 - (NSNumber *)isSupported:(id)unused
 {
-  return NUMBOOL([TiUtils isIOS9OrGreater]);
+  return NUMBOOL([TiUtils isIOSVersionOrGreater:@"9.0"]);
 }
 
 - (void)close:(id)unused
@@ -157,7 +157,7 @@
   if ([args objectForKey:@"tintColor"]) {
     TiColor *newColor = [TiUtils colorValue:@"tintColor" properties:args];
 
-    if ([TiUtils isIOS10OrGreater]) {
+    if ([TiUtils isIOSVersionOrGreater:@"10.0"]) {
       [safari setPreferredControlTintColor:[newColor _color]];
     } else {
       [[safari view] setTintColor:[newColor _color]];
@@ -165,7 +165,7 @@
   }
 
   if ([args objectForKey:@"barColor"]) {
-    if ([TiUtils isIOS10OrGreater]) {
+    if ([TiUtils isIOSVersionOrGreater:@"10.0"]) {
       [safari setPreferredBarTintColor:[[TiUtils colorValue:@"barColor" properties:args] _color]];
     } else {
       NSLog(@"[ERROR] Ti.WebDialog: The barColor property is only available in iOS 10 and later");
