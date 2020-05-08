@@ -25,7 +25,7 @@
 #if IS_IOS_12
     if ([TiUtils isIOSVersionOrGreater:@"12.0"]) {
       _authSession = [[ASWebAuthenticationSession alloc] initWithURL:[TiUtils toURL:url proxy:self]
-                                                   callbackURLScheme:[TiUtils stringValue:scheme]
+                                                   callbackURLScheme:scheme
                                                    completionHandler:^(NSURL *_Nullable callbackURL, NSError *_Nullable error) {
                                                      [self fireEventWithCallbackUrl:callbackURL andError:error];
                                                    }];
@@ -33,7 +33,7 @@
 #endif
     if (_authSession == nil) {
       _authSession = [[SFAuthenticationSession alloc] initWithURL:[TiUtils toURL:url proxy:self]
-                                                callbackURLScheme:[TiUtils stringValue:scheme]
+                                                callbackURLScheme:scheme
                                                 completionHandler:^(NSURL *callbackURL, NSError *error) {
                                                   [self fireEventWithCallbackUrl:callbackURL andError:error];
                                                 }];
