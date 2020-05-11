@@ -6,12 +6,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#if IS_IOS_11
-#if IS_IOS_12
-#import <AuthenticationServices/AuthenticationServices.h>
-#endif
-#import "TiUtils.h"
 #import "TiWebdialogAuthenticationSessionProxy.h"
+#import "TiUtils.h"
 #import <SafariServices/SafariServices.h>
 
 @implementation TiWebdialogAuthenticationSessionProxy
@@ -22,7 +18,6 @@
     NSString *url = [TiUtils stringValue:[self valueForKey:@"url"]];
     NSString *scheme = [TiUtils stringValue:[self valueForKey:@"scheme"]];
 
-#if IS_IOS_12
     if ([TiUtils isIOSVersionOrGreater:@"12.0"]) {
       _authSession = [[ASWebAuthenticationSession alloc] initWithURL:[TiUtils toURL:url proxy:self]
                                                    callbackURLScheme:scheme
@@ -34,9 +29,7 @@
         ((ASWebAuthenticationSession *)_authSession).presentationContextProvider = self;
       }
 #endif
-    }
-#endif
-    if (_authSession == nil) {
+    } else {
       _authSession = [[SFAuthenticationSession alloc] initWithURL:[TiUtils toURL:url proxy:self]
                                                 callbackURLScheme:scheme
                                                 completionHandler:^(NSURL *callbackURL, NSError *error) {
@@ -81,10 +74,8 @@
   id session = [self authSession];
   if ([session isKindOfClass:[SFAuthenticationSession class]]) {
     [(SFAuthenticationSession *)session start];
-#if IS_IOS_12
   } else if ([session isKindOfClass:[ASWebAuthenticationSession class]]) {
     [(ASWebAuthenticationSession *)session start];
-#endif
   }
 }
 
@@ -99,5 +90,3 @@
 }
 
 @end
-
-#endif

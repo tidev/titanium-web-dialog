@@ -6,9 +6,8 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#if IS_IOS_11
-
 #import "TiProxy.h"
+#import <AuthenticationServices/AuthenticationServices.h>
 
 #if IS_IOS_13
 @interface TiWebdialogAuthenticationSessionProxy : TiProxy <ASWebAuthenticationPresentationContextProviding>
@@ -28,5 +27,3 @@
 - (NSNumber *)isSupported:(id)unused;
 
 @end
-
-#endif
