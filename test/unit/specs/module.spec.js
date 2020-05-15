@@ -28,17 +28,20 @@ describe('ti.webDialog', function () {
 				expect(webDialog.open).toEqual(jasmine.any(Function));
 			});
 
-			it('should load url and fire "open" & "close" event', done => {
-				webDialog.addEventListener('close', function (event) {
-					done();
-				});
+			if (IOS) {
+				it('should load url and fire "open" & "close" event', done => {
+					webDialog.addEventListener('close', function (event) {
+						done();
+					});
 
-				webDialog.addEventListener('open', function (event) {
-					webDialog.close({});
-				});
+					webDialog.addEventListener('open', function (event) {
+						webDialog.close({});
+						done();
+					});
 
-				webDialog.open({ url: 'https://axway.com' });
-			});
+					webDialog.open({ url: 'https://axway.com' });
+				});
+			}
 		});
 
 		describe('.isSupported()', () => {
@@ -73,16 +76,6 @@ describe('ti.webDialog', function () {
 				it('is a Function', () => {
 					expect(authSession.start).toEqual(jasmine.any(Function));
 				});
-
-				it('should start authSession and fire "callback" event', done => {
-					authSession.addEventListener('callback', function (event) {
-						authSession.cancel();
-						done();
-					});
-
-					authSession.start();
-				});
-
 			});
 
 			describe('authSession cancel()', () => {
