@@ -11,7 +11,10 @@ describe('ti.webDialog', function () {
 		expect(webDialog).toBeDefined();
 
 		if (IOS) {
-			authSession = webDialog.createAuthenticationSession({});
+			authSession = webDialog.createAuthenticationSession({
+				url: 'https://www.axway.com?callbackUrl=testwebdialog://', // Your OAuth-URL + app-scheme as callback-URL
+				scheme: 'testwebdialog://', // app-scheme
+			});
 
 			expect(authSession).toBeDefined();
 		}
@@ -23,6 +26,18 @@ describe('ti.webDialog', function () {
 		describe('.open()', () => {
 			it('is a Function', () => {
 				expect(webDialog.open).toEqual(jasmine.any(Function));
+			});
+
+			it('should load url and fire "open" & "close" event', done => {
+				webDialog.addEventListener('close', function (event) {
+					done();
+				});
+
+				webDialog.addEventListener('open', function (event) {
+					webDialog.close({});
+				});
+
+				webDialog.open({ url: 'https://axway.com' });
 			});
 		});
 
@@ -58,6 +73,16 @@ describe('ti.webDialog', function () {
 				it('is a Function', () => {
 					expect(authSession.start).toEqual(jasmine.any(Function));
 				});
+
+				it('should start authSession and fire "callback" event', done => {
+					authSession.addEventListener('callback', function (event) {
+						authSession.cancel();
+						done();
+					});
+
+					authSession.start();
+				});
+
 			});
 
 			describe('authSession cancel()', () => {
