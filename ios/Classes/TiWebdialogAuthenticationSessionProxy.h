@@ -6,13 +6,16 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#if IS_IOS_11
-
 #import "TiProxy.h"
-#import <SafariServices/SafariServices.h>
+#import <AuthenticationServices/AuthenticationServices.h>
 
-@interface TiWebdialogAuthenticationSessionProxy : TiProxy {
-  SFAuthenticationSession *_authSession;
+#if IS_IOS_13
+@interface TiWebdialogAuthenticationSessionProxy : TiProxy <ASWebAuthenticationPresentationContextProviding>
+#else
+@interface TiWebdialogAuthenticationSessionProxy : TiProxy
+#endif
+{
+  id _authSession;
 }
 
 #pragma mark Public API's
@@ -24,5 +27,3 @@
 - (NSNumber *)isSupported:(id)unused;
 
 @end
-
-#endif

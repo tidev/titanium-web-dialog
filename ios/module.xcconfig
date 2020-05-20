@@ -1,1 +1,1 @@
-OTHER_LDFLAGS=$(inherited) -weak_framework SafariServices
+OTHER_LDFLAGS=$(inherited) -weak_framework SafariServices -weak_framework AuthenticationServices

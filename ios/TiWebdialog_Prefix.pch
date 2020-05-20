@@ -3,9 +3,8 @@
     #import <Foundation/Foundation.h>
 #endif
 
-// iOS 11+ API's
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000
-#define IS_IOS_11 true
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 130000
+#define IS_IOS_13 true
 #else
-#define IS_IOS_11 false
+#define IS_IOS_13 false
 #endif
