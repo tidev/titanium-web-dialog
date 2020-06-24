@@ -22,31 +22,36 @@ description: |
     Add the module as a dependency to your application by adding a **`<module>`** item to the
     **`<modules>`** element of your `tiapp.xml` file:
 
-        <ti:app>
-          ...
-          <modules>
-            <module platform="iphone">ti.webdialog</module>
-          </modules>
-          ...
-        </ti:app>
+    ``` xml
+    <ti:app>
+      <!-- ... -->
+      <modules>
+        <module platform="iphone">ti.webdialog</module>
+      </modules>
+      <!-- ... -->
+    </ti:app>
+    ```
 
     Use `require()` to access the module from JavaScript:
 
-        var dialog = require('ti.webdialog');
+    ``` javascript
+    var dialog = require('ti.webdialog');
+    ```
 
     The `dialog` variable is a reference to the module. Make API calls using this reference:
 
-        if (dialog.isSupported()) {
-            dialog.open({
-                url: 'https://appcelerator.com'
-            });
-        }
+    ``` javascript
+    if (dialog.isSupported()) {
+        dialog.open({
+            url: 'https://appcelerator.com'
+        });
+    }
+    ```
 
     ### Sample Application
 
     The module contains a sample application in the
     `<TITANIUM_SDK_HOME>/modules/iphone/ti.webdialog/<VERSION>/example/` folder.
-
 properties:
   - name: DISMISS_BUTTON_STYLE_DONE
     summary: Button style used to display a localized "Done" button.
@@ -84,6 +89,7 @@ methods:
   - name: open
     summary: Opens the web dialog with the options provided.
     description: |
+        ``` javascript
         var dialog = require('ti.webdialog');
         if (dialog.isSupported()) {
             dialog.open({
@@ -92,6 +98,7 @@ methods:
                 tintColor: 'red'
             });
         }
+        ```
     parameters:
       - name: params
         summary: Dictionary used to configure the web dialog.
@@ -100,10 +107,12 @@ methods:
   - name: close
     summary: Programmatically closes the web dialog.
     description: |
+        ``` javascript
         var dialog = require('ti.webdialog');
         if (dialog.isOpen()) {
             dialog.close();
         }
+        ```
 events:
   - name: open
     summary: |

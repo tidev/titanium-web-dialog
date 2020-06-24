@@ -6,7 +6,6 @@ since: "7.1.0"
 extends: Titanium.Proxy
 osver: { ios: { min: "11.0" } }
 description: |
-    
     The `AuthenticationSession` puts the user in control of whether they want to use 
     their existing logged-in session from Safari. The app provides a URL that points 
     to the authentication webpage. The page will be loaded in a secure view controller. 
@@ -39,25 +38,26 @@ description: |
     ### Getting Started
 
     Create a new authentication session by providing a `url` and `scheme`, create an event-listener and start:
-        
-        var WebDialog = require('ti.webdialog');
-        
-        var authSession = WebDialog.createAuthenticationSession({
-          url: 'https://example.com/oauth?callbackURL=myapp://',
-          scheme: 'myapp://'
-        });
-        
-        authSession.addEventListener('callback', function(e) {
-          if (!e.success) {
-              Ti.API.error('Error authenticating: ' + e.error);
-              return;
-          }
-          
-          Ti.API.info('Callback URL: ' + e.callbackURL);
-        });
-        
-        authSession.start(); // Or cancel() to cancel it manually.
 
+    ``` javascript
+    var WebDialog = require('ti.webdialog');
+    
+    var authSession = WebDialog.createAuthenticationSession({
+      url: 'https://example.com/oauth?callbackURL=myapp://',
+      scheme: 'myapp://'
+    });
+    
+    authSession.addEventListener('callback', function(e) {
+      if (!e.success) {
+          Ti.API.error('Error authenticating: ' + e.error);
+          return;
+      }
+      
+      Ti.API.info('Callback URL: ' + e.callbackURL);
+    });
+    
+    authSession.start(); // Or cancel() to cancel it manually.
+    ```
 properties:
   - name: url
     summary: |
