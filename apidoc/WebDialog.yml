@@ -6,7 +6,6 @@ since: "7.1.0"
 extends: Titanium.Module
 osver: { ios: { min: "9.0" }, android: { min: "4.1" } }
 description: |
-    
     The WebDialog module provides Titanium access to the native `SFSafariViewController` (iOS) and `ChromeTabs` (Android). 
     This enables you to deliver interactive web content in your app just like the built-in browser, including the native UI elements already 
     familiar to your users.
