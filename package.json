@@ -1,6 +1,6 @@
 {
   "name": "@titanium-sdk/ti.webdialog",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "Use the native `SFSafariViewController` (iOS) and `Chrome Pages` (Android) within Axway Titanium.",
   "scripts": {
     "commit": "git-cz",
