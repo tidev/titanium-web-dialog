@@ -49,7 +49,7 @@
     [self fireEvent:@"close"
          withObject:@{
            @"success" : NUMINT(YES),
-           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+           @"url" : [_url stringByRemovingPercentEncoding]
          }];
   }
 }
@@ -62,19 +62,13 @@
 - (SFSafariViewController *)safariController:(NSString *)url withEntersReaderIfAvailable:(BOOL)entersReaderIfAvailable andBarCollapsingEnabled:(BOOL)barCollapsingEnabled
 {
   if (_safariController == nil) {
-    NSURL *safariURL = [NSURL URLWithString:[url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    if (@available(iOS 11.0, *)) {
-      SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
-      config.entersReaderIfAvailable = entersReaderIfAvailable;
-      config.barCollapsingEnabled = barCollapsingEnabled;
+    NSURL *safariURL = [NSURL URLWithString:[url stringByRemovingPercentEncoding]];
+    SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
+    config.entersReaderIfAvailable = entersReaderIfAvailable;
+    config.barCollapsingEnabled = barCollapsingEnabled;
 
-      _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
-                                                        configuration:config];
-    } else {
-      _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
-                                              entersReaderIfAvailable:entersReaderIfAvailable];
-    }
-
+    _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
+                                                      configuration:config];
     [_safariController setDelegate:self];
   }
 
@@ -86,7 +80,7 @@
   if ([self _hasListeners:@"load"]) {
     [self fireEvent:@"load"
          withObject:@{
-           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+           @"url" : [_url stringByRemovingPercentEncoding],
            @"success" : NUMBOOL(didLoadSuccessfully)
          }];
   }
@@ -97,7 +91,7 @@
   if ([self _hasListeners:@"redirect"]) {
     [self fireEvent:@"redirect"
          withObject:@{
-           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+           @"url" : [_url stringByRemovingPercentEncoding]
          }];
   }
 }
@@ -150,28 +144,15 @@
 
   if ([args objectForKey:@"tintColor"]) {
     TiColor *newColor = [TiUtils colorValue:@"tintColor" properties:args];
-
-    if ([TiUtils isIOSVersionOrGreater:@"10.0"]) {
-      [safari setPreferredControlTintColor:[newColor _color]];
-    } else {
-      [[safari view] setTintColor:[newColor _color]];
-    }
+    [safari setPreferredControlTintColor:[newColor _color]];
   }
 
   if ([args objectForKey:@"barColor"]) {
-    if ([TiUtils isIOSVersionOrGreater:@"10.0"]) {
-      [safari setPreferredBarTintColor:[[TiUtils colorValue:@"barColor" properties:args] _color]];
-    } else {
-      NSLog(@"[ERROR] Ti.WebDialog: The barColor property is only available in iOS 10 and later");
-    }
+    [safari setPreferredBarTintColor:[[TiUtils colorValue:@"barColor" properties:args] _color]];
   }
 
   if ([args objectForKey:@"dismissButtonStyle"]) {
-    if (@available(iOS 11.0, *)) {
-      [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
-    } else {
-      NSLog(@"[ERROR] Ti.WebDialog: The dismissButtonStyle property is only available in iOS 11 and later");
-    }
+    [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
   }
 
   [[TiApp app] showModalController:safari
