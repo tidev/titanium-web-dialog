@@ -49,7 +49,7 @@
     [self fireEvent:@"close"
          withObject:@{
            @"success" : NUMINT(YES),
-           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+           @"url" : [_url stringByRemovingPercentEncoding]
          }];
   }
 }
@@ -86,7 +86,7 @@
   if ([self _hasListeners:@"load"]) {
     [self fireEvent:@"load"
          withObject:@{
-           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+           @"url" : [_url stringByRemovingPercentEncoding],
            @"success" : NUMBOOL(didLoadSuccessfully)
          }];
   }
@@ -97,7 +97,7 @@
   if ([self _hasListeners:@"redirect"]) {
     [self fireEvent:@"redirect"
          withObject:@{
-           @"url" : [_url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+           @"url" : [_url stringByRemovingPercentEncoding]
          }];
   }
 }
@@ -150,20 +150,11 @@
 
   if ([args objectForKey:@"tintColor"]) {
     TiColor *newColor = [TiUtils colorValue:@"tintColor" properties:args];
-
-    if ([TiUtils isIOSVersionOrGreater:@"10.0"]) {
-      [safari setPreferredControlTintColor:[newColor _color]];
-    } else {
-      [[safari view] setTintColor:[newColor _color]];
-    }
+    [safari setPreferredControlTintColor:[newColor _color]];
   }
 
   if ([args objectForKey:@"barColor"]) {
-    if ([TiUtils isIOSVersionOrGreater:@"10.0"]) {
-      [safari setPreferredBarTintColor:[[TiUtils colorValue:@"barColor" properties:args] _color]];
-    } else {
-      NSLog(@"[ERROR] Ti.WebDialog: The barColor property is only available in iOS 10 and later");
-    }
+    [safari setPreferredBarTintColor:[[TiUtils colorValue:@"barColor" properties:args] _color]];
   }
 
   if ([args objectForKey:@"dismissButtonStyle"]) {
