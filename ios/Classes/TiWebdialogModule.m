@@ -62,13 +62,19 @@
 - (SFSafariViewController *)safariController:(NSString *)url withEntersReaderIfAvailable:(BOOL)entersReaderIfAvailable andBarCollapsingEnabled:(BOOL)barCollapsingEnabled
 {
   if (_safariController == nil) {
-    NSURL *safariURL = [NSURL URLWithString:[url stringByRemovingPercentEncoding]];
-    SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
-    config.entersReaderIfAvailable = entersReaderIfAvailable;
-    config.barCollapsingEnabled = barCollapsingEnabled;
+    NSURL *safariURL = [NSURL URLWithString:[url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if (@available(iOS 11.0, *)) {
+      SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
+      config.entersReaderIfAvailable = entersReaderIfAvailable;
+      config.barCollapsingEnabled = barCollapsingEnabled;
 
-    _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
-                                                      configuration:config];
+      _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
+                                                        configuration:config];
+    } else {
+      _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
+                                              entersReaderIfAvailable:entersReaderIfAvailable];
+    }
+
     [_safariController setDelegate:self];
   }
 
@@ -152,7 +158,11 @@
   }
 
   if ([args objectForKey:@"dismissButtonStyle"]) {
-    [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
+    if (@available(iOS 11.0, *)) {
+      [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
+    } else {
+      NSLog(@"[ERROR] Ti.WebDialog: The dismissButtonStyle property is only available in iOS 11 and later");
+    }
   }
 
   [[TiApp app] showModalController:safari
