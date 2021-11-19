@@ -17,7 +17,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.DisplayMetrics;
-
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsService;
@@ -67,9 +66,8 @@ public class TitaniumWebDialogModule extends KrollModule
 
 		int barColor = Utils.getColor(options, Params.BAR_COLOR);
 		if (barColor != -1) {
-			CustomTabColorSchemeParams params = new CustomTabColorSchemeParams.Builder()
-					.setToolbarColor(barColor)
-					.build();
+			CustomTabColorSchemeParams params =
+				new CustomTabColorSchemeParams.Builder().setToolbarColor(barColor).build();
 			builder.setDefaultColorSchemeParams(params);
 		}
 
