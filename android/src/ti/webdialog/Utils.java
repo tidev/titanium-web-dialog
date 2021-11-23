@@ -47,7 +47,7 @@ public class Utils
 	// return the list of all available & enabled browsers in device
 	public static List<ResolveInfo> allBrowsers(Context context)
 	{
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.testingurl.com"));
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://localhost"));
 		return context.getPackageManager().queryIntentActivities(intent, 0);
 	}
 
