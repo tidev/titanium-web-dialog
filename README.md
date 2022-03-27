@@ -14,6 +14,9 @@ Use the native `SFSafariViewController` (iOS) and `Chrome Pages` (Android) withi
 The iOS part of this module is based on Ti.SafariDialog, which has been deprecated for a cross-platform solution. All API's of Ti.SafariDialog
 still work here and have been extended by more features over time.
 
+## Android Note
+In order to use the `close` event on Android it is recommended to have a short delay between `var WebDialog = require('ti.webdialog');` and `WebDialog.open({})`. Otherwise it might not fire the `close` event.
+
 ## API's
 
 ### Top-Level
