@@ -1,23 +1,18 @@
 # Titanium Web Dialog
 
-Use the native `SFSafariViewController` (iOS) and `Chrome Pages` (Android) within Axway Titanium. 
+Use the native `SFSafariViewController` (iOS) and `Chrome Pages` (Android) within Appcelerator Titanium.
 
 <img src="./fixtures/example-screens.jpg" width="890" alt="Titanium Web Dialog" />
 
 ## Requirements
 
-- Titanium SDK 7.0.0 or later (or use the [SDK-6-compatibility](https://github.com/appcelerator-modules/titanium-web-dialog/tree/SDK-6-compatibility) Titanium SDK 6.x)
+- Titanium SDK 9.0.0 or later
 - iOS 9+ and Android 4.1+
 
 ## iOS Note
 
 The iOS part of this module is based on Ti.SafariDialog, which has been deprecated for a cross-platform solution. All API's of Ti.SafariDialog
 still work here and have been extended by more features over time.
-
-## Android Legacy Support
-
-This module is designed to work with the latest platform API's that are covered by the Titanium SDK 7.0.0 and later.
-If you want to use this module in Titanium SDK 6.x, please use the [this version](https://github.com/appcelerator-modules/titanium-web-dialog/raw/SDK-6-compatibility/android/legacy/ti.webdialog-android-1.0.0.zip).
 
 ## API's
 
@@ -38,7 +33,7 @@ If you want to use this module in Titanium SDK 6.x, please use the [this version
     * `fadeTransition` (Boolean, Android only)
     * `enableSharing` (Boolean, Android only) - Enable Share... menu item to share link
     * `closeIcon` (String, Android only) - image path to show as close-button icon
-  
+
 * `isSupported()` -> Boolean
 * `isOpen()` (iOS only) -> Boolean
 * `close()` (iOS only)
@@ -52,7 +47,7 @@ If you want to use this module in Titanium SDK 6.x, please use the [this version
 #### Events
 
 * `open` -> `success` (Boolean), `url` (String)
-* `close` -> `success` (Boolean), `url` (String) - iOS only
+* `close` -> `success` (Boolean), `url` (String)
 * `load` -> `success` (Boolean), `url` (String) - iOS only
 * `redirect` -> `url` (String) - iOS only
 
@@ -62,7 +57,7 @@ If you want to use this module in Titanium SDK 6.x, please use the [this version
 
 * `createAuthenticationSession(arguments)`
     * `url` (String)
-    * `scheme` (String) 
+    * `scheme` (String)
 
 #### Events
 
