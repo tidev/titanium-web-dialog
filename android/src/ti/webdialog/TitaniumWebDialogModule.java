@@ -17,6 +17,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.DisplayMetrics;
+import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.browser.customtabs.CustomTabsService;
 import java.util.ArrayList;
@@ -65,7 +66,9 @@ public class TitaniumWebDialogModule extends KrollModule
 
 		int barColor = Utils.getColor(options, Params.BAR_COLOR);
 		if (barColor != -1) {
-			builder.setToolbarColor(barColor);
+			CustomTabColorSchemeParams params =
+				new CustomTabColorSchemeParams.Builder().setToolbarColor(barColor).build();
+			builder.setDefaultColorSchemeParams(params);
 		}
 
 		// set start and exit animations
@@ -76,12 +79,12 @@ public class TitaniumWebDialogModule extends KrollModule
 
 		// hide navigation bar on scroll
 		if (Utils.getBool(options, Params.BAR_COLLAPSING_ENABLED)) {
-			builder.enableUrlBarHiding();
+			builder.setUrlBarHidingEnabled(true);
 		}
 
 		//enable Share link option
 		if (Utils.getBool(options, Params.ENABLE_SHARING)) {
-			builder.addDefaultShareMenuItem();
+			builder.setShareState(CustomTabsIntent.SHARE_STATE_ON);
 		}
 
 		String closeIcon = Utils.getString(options, Params.CLOSE_ICON);

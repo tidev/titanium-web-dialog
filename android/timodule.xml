@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:module xmlns:ti="http://ti.appcelerator.org" xmlns:android="http://schemas.android.com/apk/res/android">
-	<!--
-		Similar to tiapp.xml, but contains module/platform specific
-		configuration in <iphone>, <android>, and <mobileweb> sections
-	-->
-	<iphone>
-	</iphone>
+	<!-- Similar to tiapp.xml, but contains module/platform specific configuration in <iphone>, <android>, and <mobileweb> sections -->
+	<iphone></iphone>
 	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<manifest>
+			<queries>
+				<intent>
+					<action android:name="android.intent.action.VIEW"/>
+					<data android:scheme="http"/>
+				</intent>
+			</queries>
+		</manifest>
 	</android>
 </ti:module>
