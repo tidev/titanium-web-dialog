@@ -53,6 +53,7 @@ In order to use the `close` event on Android it is recommended to have a short d
 * `close` -> `success` (Boolean), `url` (String)
 * `load` -> `success` (Boolean), `url` (String) - iOS only
 * `redirect` -> `url` (String) - iOS only
+* `error` -> `message` (String) - Android only
 
 ### `AuthenticationSession` (iOS only)
 
