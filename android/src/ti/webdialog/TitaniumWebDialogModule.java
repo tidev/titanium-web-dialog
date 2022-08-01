@@ -155,7 +155,14 @@ public class TitaniumWebDialogModule extends KrollModule
 			tabIntent.intent.setPackage(s);
 		}
 
-		tabIntent.launchUrl(context, Uri.parse(url));
+		try {
+			tabIntent.launchUrl(context, Uri.parse(url));
+		} catch (Exception e) {
+			KrollDict event = new KrollDict();
+			event.put("message", e.getLocalizedMessage());
+
+			fireEvent("error", event);
+		}
 	}
 
 	private Bitmap getIcon(String path)
