@@ -65,7 +65,7 @@ public class Utils
 	public static int getColor(KrollDict options, String key)
 	{
 		if (options.containsKeyAndNotNull(key)) {
-			return TiConvert.toColor((String) options.get(key));
+			return TiConvert.toColor((String) options.get(key), TiApplication.getAppCurrentActivity());
 
 		} else {
 			return getR("color.colorPrimary");
