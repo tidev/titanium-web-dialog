@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 2.3.1
+version: 2.4.0
 apiversion: 4
 architectures: arm64-v8a armeabi-v7a x86 x86_64
 description: titanium-web-dialog
@@ -15,4 +15,4 @@ name: titanium-web-dialog
 moduleid: ti.webdialog
 guid: 1f19cce1-0ad7-4e25-ab3b-0666f54a0a49
 platform: android
-minsdk: 9.0.0
+minsdk: 12.6.0
