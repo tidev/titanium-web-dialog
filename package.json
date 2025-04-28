@@ -42,7 +42,7 @@
     "eslint-config-axway": "^6.0.0",
     "eslint-plugin-jasmine": "^4.1.1",
     "husky": "^5.0.9",
-    "jasmine-core": "^3.5.0",
+    "jasmine-core": "^5.7.0",
     "karma": "^5.0.2",
     "karma-jasmine": "^4.0.1",
     "karma-junit-reporter": "^2.0.1",
