@@ -42,7 +42,7 @@ description: |
     ``` javascript
     if (dialog.isSupported()) {
         dialog.open({
-            url: 'https://appcelerator.com'
+            url: 'https://titaniumsdk.com'
         });
     }
     ```
@@ -92,8 +92,7 @@ methods:
         var dialog = require('ti.webdialog');
         if (dialog.isSupported()) {
             dialog.open({
-                url: 'https://appcelerator.com',
-                title: 'Hello World',
+                url: 'https://titaniumsdk.com',
                 tintColor: 'red'
             });
         }
@@ -168,12 +167,6 @@ properties:
     summary: Indicates if the reader version of content should be shown automatically.
     optional: true
     type: Boolean
-    platforms: [iphone, ipad]
-
-  - name: title
-    summary: The URL to be opened.
-    optional: true
-    type: String
     platforms: [iphone, ipad]
 
   - name: tintColor

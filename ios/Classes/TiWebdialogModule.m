@@ -146,10 +146,6 @@
 
   SFSafariViewController *safari = [self safariController:_url withEntersReaderIfAvailable:entersReaderIfAvailable andBarCollapsingEnabled:barCollapsingEnabled];
 
-  if ([args objectForKey:@"title"]) {
-    [safari setTitle:[TiUtils stringValue:@"title" properties:args]];
-  }
-
   if ([args objectForKey:@"tintColor"]) {
     TiColor *newColor = [TiUtils colorValue:@"tintColor" properties:args];
     [safari setPreferredControlTintColor:[newColor _color]];
