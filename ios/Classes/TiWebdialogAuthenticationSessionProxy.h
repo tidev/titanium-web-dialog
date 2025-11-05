@@ -6,7 +6,7 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiProxy.h"
+#import <TitaniumKit/TitaniumKit.h>
 #import <AuthenticationServices/AuthenticationServices.h>
 
 @interface TiWebdialogAuthenticationSessionProxy : TiProxy <ASWebAuthenticationPresentationContextProviding>

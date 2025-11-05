@@ -7,10 +7,6 @@
  */
 
 #import "TiWebdialogModule.h"
-#import "TiApp.h"
-#import "TiBase.h"
-#import "TiHost.h"
-#import "TiUtils.h"
 
 @implementation TiWebdialogModule
 

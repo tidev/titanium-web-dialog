@@ -7,7 +7,6 @@
  */
 
 #import "TiWebdialogAuthenticationSessionProxy.h"
-#import "TiUtils.h"
 #import <SafariServices/SafariServices.h>
 
 @implementation TiWebdialogAuthenticationSessionProxy
