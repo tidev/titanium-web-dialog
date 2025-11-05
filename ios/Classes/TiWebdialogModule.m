@@ -65,17 +65,12 @@
     NSString *encodedURL = [url stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
     NSURL *safariURL = [NSURL URLWithString:encodedURL];
 
-    if (@available(iOS 11.0, *)) {
-      SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
-      config.entersReaderIfAvailable = entersReaderIfAvailable;
-      config.barCollapsingEnabled = barCollapsingEnabled;
+    SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
+    config.entersReaderIfAvailable = entersReaderIfAvailable;
+    config.barCollapsingEnabled = barCollapsingEnabled;
 
-      _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
-                                                        configuration:config];
-    } else {
-      _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
-                                              entersReaderIfAvailable:entersReaderIfAvailable];
-    }
+    _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
+                                                      configuration:config];
 
     [_safariController setDelegate:self];
   }
