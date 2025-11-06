@@ -151,11 +151,7 @@
   }
 
   if ([args objectForKey:@"dismissButtonStyle"]) {
-    if (@available(iOS 11.0, *)) {
-      [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
-    } else {
-      NSLog(@"[ERROR] Ti.WebDialog: The dismissButtonStyle property is only available in iOS 11 and later");
-    }
+    [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
   }
 
   [[TiApp app] showModalController:safari
