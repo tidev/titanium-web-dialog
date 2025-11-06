@@ -7,35 +7,23 @@
  */
 
 #import "TiWebdialogAuthenticationSessionProxy.h"
-#import "TiUtils.h"
 #import <SafariServices/SafariServices.h>
 
 @implementation TiWebdialogAuthenticationSessionProxy
 
-- (id)authSession
+- (ASWebAuthenticationSession *)authSession
 {
   if (_authSession == nil) {
     NSString *url = [TiUtils stringValue:[self valueForKey:@"url"]];
     NSString *scheme = [TiUtils stringValue:[self valueForKey:@"scheme"]];
 
-    if ([TiUtils isIOSVersionOrGreater:@"12.0"]) {
-      _authSession = [[ASWebAuthenticationSession alloc] initWithURL:[TiUtils toURL:url proxy:self]
-                                                   callbackURLScheme:scheme
-                                                   completionHandler:^(NSURL *_Nullable callbackURL, NSError *_Nullable error) {
-                                                     [self fireEventWithCallbackUrl:callbackURL andError:error];
-                                                   }];
-#if IS_IOS_13
-      if ([TiUtils isIOSVersionOrGreater:@"13.0"]) {
-        ((ASWebAuthenticationSession *)_authSession).presentationContextProvider = self;
-      }
-#endif
-    } else {
-      _authSession = [[SFAuthenticationSession alloc] initWithURL:[TiUtils toURL:url proxy:self]
-                                                callbackURLScheme:scheme
-                                                completionHandler:^(NSURL *callbackURL, NSError *error) {
-                                                  [self fireEventWithCallbackUrl:callbackURL andError:error];
-                                                }];
-    }
+    _authSession = [[ASWebAuthenticationSession alloc] initWithURL:[TiUtils toURL:url proxy:self]
+                                                 callbackURLScheme:scheme
+                                                 completionHandler:^(NSURL *_Nullable callbackURL, NSError *_Nullable error) {
+                                                   [self fireEventWithCallbackUrl:callbackURL andError:error];
+                                                 }];
+    
+    _authSession.presentationContextProvider = self;
   }
 
   return _authSession;
@@ -71,12 +59,7 @@
 
 - (void)start:(id)unused
 {
-  id session = [self authSession];
-  if ([session isKindOfClass:[SFAuthenticationSession class]]) {
-    [(SFAuthenticationSession *)session start];
-  } else if ([session isKindOfClass:[ASWebAuthenticationSession class]]) {
-    [(ASWebAuthenticationSession *)session start];
-  }
+  [[self authSession] start];
 }
 
 - (void)cancel:(id)unused
@@ -86,7 +69,7 @@
 
 - (NSNumber *)isSupported:(id)unused
 {
-  return NUMBOOL([TiUtils isIOSVersionOrGreater:@"11.0"]);
+  return @(YES);
 }
 
 @end

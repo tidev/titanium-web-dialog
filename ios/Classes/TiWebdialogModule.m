@@ -7,10 +7,6 @@
  */
 
 #import "TiWebdialogModule.h"
-#import "TiApp.h"
-#import "TiBase.h"
-#import "TiHost.h"
-#import "TiUtils.h"
 
 @implementation TiWebdialogModule
 
@@ -65,17 +61,12 @@
     NSString *encodedURL = [url stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
     NSURL *safariURL = [NSURL URLWithString:encodedURL];
 
-    if (@available(iOS 11.0, *)) {
-      SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
-      config.entersReaderIfAvailable = entersReaderIfAvailable;
-      config.barCollapsingEnabled = barCollapsingEnabled;
+    SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
+    config.entersReaderIfAvailable = entersReaderIfAvailable;
+    config.barCollapsingEnabled = barCollapsingEnabled;
 
-      _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
-                                                        configuration:config];
-    } else {
-      _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
-                                              entersReaderIfAvailable:entersReaderIfAvailable];
-    }
+    _safariController = [[SFSafariViewController alloc] initWithURL:safariURL
+                                                      configuration:config];
 
     [_safariController setDelegate:self];
   }
@@ -160,11 +151,7 @@
   }
 
   if ([args objectForKey:@"dismissButtonStyle"]) {
-    if (@available(iOS 11.0, *)) {
-      [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
-    } else {
-      NSLog(@"[ERROR] Ti.WebDialog: The dismissButtonStyle property is only available in iOS 11 and later");
-    }
+    [safari setDismissButtonStyle:[TiUtils intValue:@"dismissButtonStyle" properties:args def:SFSafariViewControllerDismissButtonStyleDone]];
   }
 
   [[TiApp app] showModalController:safari

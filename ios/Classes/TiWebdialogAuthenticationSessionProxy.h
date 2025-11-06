@@ -6,16 +6,12 @@
  * Please see the LICENSE included with this distribution for details.
  */
 
-#import "TiProxy.h"
+#import <TitaniumKit/TitaniumKit.h>
 #import <AuthenticationServices/AuthenticationServices.h>
 
-#if IS_IOS_13
 @interface TiWebdialogAuthenticationSessionProxy : TiProxy <ASWebAuthenticationPresentationContextProviding>
-#else
-@interface TiWebdialogAuthenticationSessionProxy : TiProxy
-#endif
 {
-  id _authSession;
+  ASWebAuthenticationSession *_authSession;
 }
 
 #pragma mark Public API's
