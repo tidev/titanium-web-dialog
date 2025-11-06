@@ -4,7 +4,7 @@ summary: Allows a Titanium application to use the Safari Controller (iOS) and Ch
 platforms: [iphone, ipad, android]
 since: "7.1.0"
 extends: Titanium.Module
-osver: { ios: { min: "9.0" }, android: { min: "4.1" } }
+osver: { ios: { min: "15.0" }, android: { min: "5.0" } }
 description: |
     The WebDialog module provides Titanium access to the native `SFSafariViewController` (iOS) and `ChromeTabs` (Android). 
     This enables you to deliver interactive web content in your app just like the built-in browser, including the native UI elements already 
@@ -13,8 +13,8 @@ description: |
     ### Requirements
 
     The WebDialog module is available with the Titanium SDK starting with Release 7.1.0.
-    This module only works with devices running iOS 9 / Android 4.1 and later.
-    Please make sure you have at least Xcode 7 to build to the required iOS sources.
+    This module only works with devices running iOS 15 / Android 5 and later.
+    Please make sure you have at least Xcode 13 to build to the required iOS sources.
 
     ### Getting Started
 
@@ -156,7 +156,7 @@ events:
                
 ---
 name: WebDialogOpenParams
-summary: Parameters used in the <Modules.WebDialog.open> method
+summary: Parameters used in the <Modules.WebDialog.open> method.
 properties:
   - name: url
     summary: The URL to be opened.
@@ -200,7 +200,7 @@ properties:
     platforms: [iphone, ipad, android]
 
   - name: intentFlags
-    summary: Intent flags to be used for the Chrome Custom Tab, specified as a Bitwise-OR
+    summary: Intent flags to be used for the Chrome Custom Tab, specified as a bitwise OR.
     optional: true
     type: Number
     constants: Titanium.Android.FLAG_*
