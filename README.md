@@ -29,7 +29,6 @@ In order to use the `close` event on Android it is recommended to have a short d
     * `animated` (Boolean, iOS only)
     * `entersReaderIfAvailable` (Boolean, iOS only)
     * `barCollapsingEnabled` (Boolean)
-    * `title` (String, iOS only)
     * `tintColor` (String, iOS only)
     * `dismissButtonStyle` (`DISMISS_BUTTON_STYLE_*`, iOS only)
     * `showTitle` (Boolean, Android only)
