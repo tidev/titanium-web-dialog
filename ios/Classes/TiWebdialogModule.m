@@ -58,7 +58,9 @@
 - (SFSafariViewController *)safariController:(NSString *)url withEntersReaderIfAvailable:(BOOL)entersReaderIfAvailable andBarCollapsingEnabled:(BOOL)barCollapsingEnabled
 {
   if (_safariController == nil) {
-    NSString *encodedURL = [url stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
+    NSMutableCharacterSet *allowedCharacters = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+    [allowedCharacters addCharactersInString:@"#"]; // https://github.com/tidev/titanium-web-dialog/issues/329
+    NSString *encodedURL = [url stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
     NSURL *safariURL = [NSURL URLWithString:encodedURL];
 
     SFSafariViewControllerConfiguration *config = [[SFSafariViewControllerConfiguration alloc] init];
