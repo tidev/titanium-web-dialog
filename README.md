@@ -6,8 +6,8 @@ Use the native `SFSafariViewController` (iOS) and `Chrome Pages` (Android) withi
 
 ## Requirements
 
-- Titanium SDK 9.0.0 or later
-- iOS 9+ and Android 4.1+
+- Titanium SDK 12 or later
+- iOS 15+ / Android 5+
 
 ## iOS Note
 

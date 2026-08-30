@@ -13,7 +13,6 @@ win.add(btnOpenDialog);
 btnOpenDialog.addEventListener('click', function () {
 	WebDialog.open({
 		url: 'https://tidev.io/',
-		title: 'Hello World',
 
 		// iOS 10+
 		tintColor: 'red',
