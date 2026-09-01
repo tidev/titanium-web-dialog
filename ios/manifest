@@ -7,7 +7,7 @@ apiversion: 2
 architectures: arm64 x86_64
 description: titanium-web-dialog
 author: Hans Knoechel
-license: Apache 2.0
+license: Apache-2.0
 mac: false
 copyright: Copyright (c) 2017-present by TiDev
 
