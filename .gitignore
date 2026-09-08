@@ -32,7 +32,7 @@ android/java-sources.txt
 nbproject
 /ios/metadata.json
 /ios/dist
-/ios/ti.map-iphone-*.zip
+/ios/ti.webdialog-iphone-*.zip
 
 node_modules/
 
