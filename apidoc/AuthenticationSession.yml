@@ -4,7 +4,7 @@ summary: Authenticate a user with a web service, even if the web service is run 
 platforms: [iphone, ipad]
 since: "7.1.0"
 extends: Titanium.Proxy
-osver: { ios: { min: "11.0" } }
+osver: { ios: { min: "15.0" } }
 description: |
     The `AuthenticationSession` puts the user in control of whether they want to use 
     their existing logged-in session from Safari. The app provides a URL that points 
@@ -32,8 +32,8 @@ description: |
     ### Requirements
 
     The AuthenticationSession API is available with the Titanium SDK starting with Release 7.1.0.
-    This module only works with devices running iOS 11.0 and later.
-    Please make sure you have at least Xcode 9 to build to the required sources.
+    This module only works with devices running iOS 15 and later.
+    Please make sure you have at least Xcode 13 to build to the required sources.
 
     ### Getting Started
 
@@ -104,7 +104,7 @@ name: AuthenticationSessionCallback
 summary: The callback which is called when the session is completed successfully or canceled by user.
 properties:
   - name: callbackURL
-    summary: The callback-url passed if no error occured, undefined otherwise.
+    summary: The callback-url passed if no error occurred, undefined otherwise.
     type: String
 
   - name: error
