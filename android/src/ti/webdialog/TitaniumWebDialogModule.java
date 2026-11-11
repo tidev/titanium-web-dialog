@@ -8,6 +8,7 @@
  */
 package ti.webdialog;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -234,9 +235,21 @@ public class TitaniumWebDialogModule extends KrollModule
 	}
 
 	@Kroll.method
-	public void close(KrollDict options)
+	public void close(@Kroll.argument(optional = true) KrollDict options)
 	{
-		Log.e(Params.LCAT, "The \"close\" method is not implemented on Android, yet!");
+		Activity activity = TiApplication.getAppCurrentActivity();
+		if (activity == null) {
+			return;
+		}
+
+		// Android has no API to close a Custom Tab. The tab runs in the app's task, on top of the activity
+		// that opened it: bringing that activity back to the front (CLEAR_TOP) finishes the tab.
+		Intent intent = new Intent(activity, activity.getClass());
+		if (activity.getIntent() != null && activity.getIntent().getExtras() != null) {
+			intent.putExtras(activity.getIntent().getExtras());
+		}
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		activity.startActivity(intent);
 	}
 
 	@Kroll.method
