@@ -18,6 +18,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsCallback;
@@ -45,19 +47,60 @@ public class TitaniumWebDialogModule extends KrollModule
 {
 	// Standard Debugging variables
 	private static final String LCAT = "TiWebDialog";
+	// How long open() waits for the session of a newly bound browser before opening without one
+	private static final long SESSION_TIMEOUT_MS = 1000;
 	private CustomTabsSession mCustomTabsSession;
 	private CustomTabsClient mCustomTabsClient;
 	private CustomTabsServiceConnection mCustomTabsServiceConnection;
+	private String mCustomTabsPackage;
+	private Runnable mPendingOpen;
+	private final Handler mHandler = new Handler(Looper.getMainLooper());
 	private String url = "";
 
 	public TitaniumWebDialogModule()
 	{
-		Context context = TiApplication.getAppCurrentActivity();
+		Context context = TiApplication.getInstance();
+
+		// Bind early, so the session is ready by the time open() is called
+		bindCustomTabsService(context, getCustomTabsPackage(context));
+	}
+
+	// The user's default browser if it supports Custom Tabs, otherwise another installed app that does (or null)
+	private static String getCustomTabsPackage(Context context)
+	{
+		Intent serviceIntent = new Intent(CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION);
+		List<String> packageNames = new ArrayList<String>();
+		for (ResolveInfo info : context.getPackageManager().queryIntentServices(serviceIntent, 0)) {
+			packageNames.add(info.serviceInfo.packageName);
+		}
+		return CustomTabsClient.getPackageName(context, packageNames);
+	}
+
+	// Binds to the Custom Tabs service of the given browser (the session delivers the "close" event)
+	private void bindCustomTabsService(Context context, String packageName)
+	{
+		if (packageName == null || packageName.equals(mCustomTabsPackage)) {
+			return;
+		}
+
+		if (mCustomTabsServiceConnection != null) {
+			try {
+				context.unbindService(mCustomTabsServiceConnection);
+			} catch (IllegalArgumentException e) {
+				// not bound
+			}
+		}
+		mCustomTabsClient = null;
+		mCustomTabsSession = null;
+		mCustomTabsPackage = packageName;
 
 		mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
 			@Override
 			public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient)
 			{
+				if (mCustomTabsServiceConnection != this) {
+					return;
+				}
 				mCustomTabsClient = customTabsClient;
 				mCustomTabsClient.warmup(0L);
 				mCustomTabsSession = mCustomTabsClient.newSession(new CustomTabsCallback() {
@@ -79,39 +122,35 @@ public class TitaniumWebDialogModule extends KrollModule
 						super.extraCallback(callbackName, args);
 					}
 				});
+				runPendingOpen();
 			}
 
 			@Override
 			public void onServiceDisconnected(ComponentName name)
 			{
 				Log.d(LCAT, "disconnected");
-				mCustomTabsClient = null;
+				if (mCustomTabsServiceConnection == this) {
+					mCustomTabsClient = null;
+					mCustomTabsSession = null;
+					mCustomTabsPackage = null;
+				}
 			}
 		};
 
-		CustomTabsClient.bindCustomTabsService(context, "com.android.chrome", mCustomTabsServiceConnection);
-	}
-
-	private List<String> getCustomTabBrowsers(Context context, List<ResolveInfo> browsersList)
-	{
-		List<String> customTabBrowsers = new ArrayList<String>();
-
-		for (ResolveInfo info : browsersList) {
-			String packageName = info.activityInfo.packageName;
-
-			Intent intent = new Intent();
-			intent.setAction(CustomTabsService.ACTION_CUSTOM_TABS_CONNECTION);
-			intent.setPackage(packageName);
-
-			if (context.getPackageManager().resolveService(intent, 0) != null) {
-				customTabBrowsers.add(packageName);
-			}
+		if (!CustomTabsClient.bindCustomTabsService(context, packageName, mCustomTabsServiceConnection)) {
+			mCustomTabsServiceConnection = null;
+			mCustomTabsPackage = null;
 		}
-
-		return customTabBrowsers;
 	}
 
-	private void openCustomTab(Context context, List<String> customTabBrowsers, KrollDict options)
+	private void runPendingOpen()
+	{
+		if (mPendingOpen != null) {
+			mPendingOpen.run();
+		}
+	}
+
+	private void openCustomTab(Context context, String packageName, KrollDict options)
 	{
 		url = options.getString(Params.URL);
 		CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(mCustomTabsSession);
@@ -151,8 +190,8 @@ public class TitaniumWebDialogModule extends KrollModule
 			tabIntent.intent.addFlags(options.getInt(Params.INTENT_FLAGS));
 		}
 
-		for (String s : customTabBrowsers) {
-			tabIntent.intent.setPackage(s);
+		if (packageName != null) {
+			tabIntent.intent.setPackage(packageName);
 		}
 
 		try {
@@ -211,10 +250,28 @@ public class TitaniumWebDialogModule extends KrollModule
 			event.put("url", options.getString(Params.URL));
 
 			if (!browsersList.isEmpty()) {
-				List<String> customTabBrowsers = getCustomTabBrowsers(context, browsersList);
+				final String packageName = getCustomTabsPackage(context);
+				bindCustomTabsService(TiApplication.getInstance(), packageName);
 
-				// show supported browsers list or open directly if only 1 supported browser is available
-				openCustomTab(context, customTabBrowsers, options);
+				runPendingOpen();
+				if (packageName != null && mCustomTabsSession == null && mCustomTabsServiceConnection != null) {
+					// Bound but not connected yet: open once the session exists (so its events arrive),
+					// or after a timeout without it
+					mPendingOpen = new Runnable() {
+						@Override
+						public void run()
+						{
+							if (mPendingOpen == this) {
+								mPendingOpen = null;
+								mHandler.removeCallbacks(this);
+								openCustomTab(context, packageName, options);
+							}
+						}
+					};
+					mHandler.postDelayed(mPendingOpen, SESSION_TIMEOUT_MS);
+				} else {
+					openCustomTab(context, packageName, options);
+				}
 
 			} else {
 				Log.d(Params.LCAT, "No browsers available in this device.");

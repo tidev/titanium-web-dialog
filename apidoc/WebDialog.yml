@@ -125,11 +125,14 @@ events:
     summary: |
         The close event is fired when the web dialog is closed by the user 
         or programmatically.
+    description: |
+        On Android, the event needs a browser that supports Custom Tabs: the user's default browser if it
+        does, otherwise another installed browser that does. Without one, the URL opens in a regular
+        browser window and no close event is fired.
     properties:
       - name: url
         summary: The URL provided when opening the web dialog.
         type: String
-    platforms: [iphone, ipad]
 
   - name: load
     summary: Fired when the initial URL load is complete.
