@@ -105,6 +105,11 @@ methods:
   - name: close
     summary: Programmatically closes the web dialog.
     description: |
+        On Android, there is no API to close a Custom Tab. The tab runs in the app's task on top of the
+        activity that opened it, so `close()` brings that activity back to the front, which finishes the
+        tab. That activity receives a `newintent` event. It does not work if the tab was opened in a
+        separate task (for example with `intentFlags: Ti.Android.FLAG_ACTIVITY_NEW_TASK`).
+
         ``` javascript
         var dialog = require('ti.webdialog');
         if (dialog.isOpen()) {
